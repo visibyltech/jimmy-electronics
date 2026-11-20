@@ -46,6 +46,36 @@ export default function App() {
   const [toastMsg, setToastMsg] = useState('');
 
   useEffect(() => {
+    // Register the initial route so Back from the first in-app page stays in the app.
+    const initialState =
+      window.history.state && typeof window.history.state === 'object'
+        ? window.history.state
+        : {};
+    window.history.replaceState(
+      {
+        ...initialState,
+        __jimmyElectronicsRoute: route,
+        __jimmyElectronicsScrollY: window.scrollY,
+      },
+      '',
+      window.location.href
+    );
+
+    const handlePopState = (event: PopStateEvent) => {
+      const previousRoute = event.state?.__jimmyElectronicsRoute as AppRoute | undefined;
+      const previousScrollY = Number(event.state?.__jimmyElectronicsScrollY ?? 0);
+
+      setRoute(previousRoute ?? { page: 'home' });
+      window.requestAnimationFrame(() => {
+        window.scrollTo({ top: previousScrollY, behavior: 'auto' });
+      });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
     testFirestoreConnection();
     fetchStoreSettings().then(setStoreSettings).catch(() => {});
     const unsubCatalog = subscribeCatalogProducts(setProducts);
@@ -91,6 +121,24 @@ export default function App() {
   }, []);
 
   const navigate = (next: AppRoute) => {
+    // Save the current in-app page and scroll position before navigating.
+    const currentState =
+      window.history.state && typeof window.history.state === 'object'
+        ? window.history.state
+        : {};
+    window.history.replaceState(
+      { ...currentState, __jimmyElectronicsRoute: route, __jimmyElectronicsScrollY: window.scrollY },
+      '',
+      window.location.href
+    );
+
+    // Add an in-app history entry so Android/browser Back returns to the previous page.
+    window.history.pushState(
+      { __jimmyElectronicsRoute: next, __jimmyElectronicsScrollY: 0 },
+      '',
+      window.location.href
+    );
+
     setRoute(next);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
