@@ -1,0 +1,6 @@
+{
+  "name": "JIMMY ELECTRONICS | MIND J-E MULTI CONCEPT",
+  "description": "Buy Premium Home Appliances with Warranty, quality, durability, and trusted performance. Shop Refrigerators, TVs, Air Conditioners, Solar Power, Furniture, and Apple devices with Pay Now, Save to Buy instalments, or Credably BNPL.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

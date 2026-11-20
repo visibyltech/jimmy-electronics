@@ -1,0 +1,1258 @@
+{
+  "categories": [
+    {
+      "id": 114,
+      "name": "Promotions",
+      "slug": "promotions",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/635d50f0-04eb-4a25-9f65-107ebfb8e56b/image.webp?_dc=1758118724",
+      "productCount": 348,
+      "displayOrder": 1,
+      "subCategories": [
+        {
+          "id": 115,
+          "name": "Promo TVs",
+          "slug": "promo-tvs",
+          "parentId": 114,
+          "productCount": 138,
+          "sortOrder": 1
+        },
+        {
+          "id": 120,
+          "name": "Washing Machines",
+          "slug": "washing-machines",
+          "parentId": 114,
+          "productCount": 32,
+          "sortOrder": 1
+        },
+        {
+          "id": 201,
+          "name": "Freezers",
+          "slug": "freezers",
+          "parentId": 114,
+          "productCount": 5,
+          "sortOrder": 1
+        },
+        {
+          "id": 117,
+          "name": "Refrigerators",
+          "slug": "refrigerators",
+          "parentId": 114,
+          "productCount": 51,
+          "sortOrder": 1
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Refrigerator",
+      "slug": "refrigerator",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f348bb8d-85e6-4962-a5d6-8466cae721f6/image.webp?_dc=1758118724",
+      "productCount": 173,
+      "displayOrder": 2,
+      "subCategories": [
+        {
+          "id": 203,
+          "name": "SMEG",
+          "slug": "smeg",
+          "parentId": 15,
+          "productCount": 12,
+          "sortOrder": 1
+        },
+        {
+          "id": 17,
+          "name": "Single Door",
+          "slug": "single-door",
+          "parentId": 15,
+          "productCount": 33,
+          "sortOrder": 2
+        },
+        {
+          "id": 63,
+          "name": "Top Freezer",
+          "slug": "top-freezer",
+          "parentId": 15,
+          "productCount": 30,
+          "sortOrder": 3
+        },
+        {
+          "id": 64,
+          "name": "Bottom Freezer",
+          "slug": "bottom-freezer",
+          "parentId": 15,
+          "productCount": 6,
+          "sortOrder": 4
+        },
+        {
+          "id": 16,
+          "name": "Side by Side",
+          "slug": "side-by-side",
+          "parentId": 15,
+          "productCount": 48,
+          "sortOrder": 6
+        },
+        {
+          "id": 89,
+          "name": "4 doors",
+          "slug": "4-doors",
+          "parentId": 15,
+          "productCount": 18,
+          "sortOrder": 7
+        },
+        {
+          "id": 88,
+          "name": "Chiller",
+          "slug": "chiller",
+          "parentId": 15,
+          "productCount": 8,
+          "sortOrder": 8
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "name": "Freezer",
+      "slug": "freezer",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/c00af590-314e-43eb-9dec-f95991489bf6/image.webp?_dc=1758118724",
+      "productCount": 37,
+      "displayOrder": 3,
+      "subCategories": [
+        {
+          "id": 176,
+          "name": "Standing Freezer",
+          "slug": "standing-freezer",
+          "parentId": 174,
+          "productCount": 4,
+          "sortOrder": 1
+        },
+        {
+          "id": 175,
+          "name": "Chest Freezer",
+          "slug": "chest-freezer",
+          "parentId": 174,
+          "productCount": 33,
+          "sortOrder": 1
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Washing Machines",
+      "slug": "washing-machines",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/d/d55e8175-e9af-48a0-b235-0f7d95bba0ba/image.webp?_dc=1758118724",
+      "productCount": 148,
+      "displayOrder": 4,
+      "subCategories": [
+        {
+          "id": 32,
+          "name": "Top Loader",
+          "slug": "top-loader",
+          "parentId": 18,
+          "productCount": 41,
+          "sortOrder": 1
+        },
+        {
+          "id": 19,
+          "name": "Wash & Dry",
+          "slug": "wash-dry",
+          "parentId": 18,
+          "productCount": 26,
+          "sortOrder": 2
+        },
+        {
+          "id": 31,
+          "name": "Front Loader",
+          "slug": "front-loader",
+          "parentId": 18,
+          "productCount": 55,
+          "sortOrder": 3
+        },
+        {
+          "id": 69,
+          "name": "Manual Twin Tub",
+          "slug": "manual-twin-tub",
+          "parentId": 18,
+          "productCount": 17,
+          "sortOrder": 4
+        },
+        {
+          "id": 62,
+          "name": "Dryers",
+          "slug": "dryers",
+          "parentId": 18,
+          "productCount": 8,
+          "sortOrder": 5
+        },
+        {
+          "id": 102,
+          "name": "LG Styler Steam Closet",
+          "slug": "lg-styler-steam-closet",
+          "parentId": 18,
+          "productCount": 1,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "TVs",
+      "slug": "tvs",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/bfe708f6-0ee4-4e06-8b55-533142418918/image.webp?_dc=1758118724",
+      "productCount": 268,
+      "displayOrder": 5,
+      "subCategories": [
+        {
+          "id": 122,
+          "name": "Monitors",
+          "slug": "monitors",
+          "parentId": 5,
+          "productCount": 20,
+          "sortOrder": 1
+        },
+        {
+          "id": 66,
+          "name": "32 Inch",
+          "slug": "32-inch",
+          "parentId": 5,
+          "productCount": 18,
+          "sortOrder": 2
+        },
+        {
+          "id": 65,
+          "name": "40-49 Inch",
+          "slug": "40-49-inch",
+          "parentId": 5,
+          "productCount": 33,
+          "sortOrder": 3
+        },
+        {
+          "id": 59,
+          "name": "50-59 Inch",
+          "slug": "50-59-inch",
+          "parentId": 5,
+          "productCount": 51,
+          "sortOrder": 4
+        },
+        {
+          "id": 60,
+          "name": "60-69 Inch",
+          "slug": "60-69-inch",
+          "parentId": 5,
+          "productCount": 41,
+          "sortOrder": 5
+        },
+        {
+          "id": 61,
+          "name": "70-79 Inch",
+          "slug": "70-79-inch",
+          "parentId": 5,
+          "productCount": 39,
+          "sortOrder": 6
+        },
+        {
+          "id": 7,
+          "name": "80 Inch & Above",
+          "slug": "80-inch-above",
+          "parentId": 5,
+          "productCount": 62,
+          "sortOrder": 7
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Audio",
+      "slug": "audio",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f22845fe-d422-4da7-b45f-61c0e7fd2282/image.webp?_dc=1758118724",
+      "productCount": 110,
+      "displayOrder": 6,
+      "subCategories": [
+        {
+          "id": 38,
+          "name": "Sound Bar",
+          "slug": "sound-bar",
+          "parentId": 9,
+          "productCount": 48,
+          "sortOrder": 1
+        },
+        {
+          "id": 67,
+          "name": "Wireless Speaker",
+          "slug": "wireless-speaker",
+          "parentId": 9,
+          "productCount": 25,
+          "sortOrder": 2
+        },
+        {
+          "id": 10,
+          "name": "Mini Hi-Fi System",
+          "slug": "mini-hi-fi-system",
+          "parentId": 9,
+          "productCount": 25,
+          "sortOrder": 3
+        },
+        {
+          "id": 104,
+          "name": "Home Theater System",
+          "slug": "home-theater-system",
+          "parentId": 9,
+          "productCount": 8,
+          "sortOrder": 4
+        },
+        {
+          "id": 103,
+          "name": "AV Receiver Systems",
+          "slug": "av-receiver-systems",
+          "parentId": 9,
+          "productCount": 3,
+          "sortOrder": 5
+        },
+        {
+          "id": 68,
+          "name": "DVD Player",
+          "slug": "dvd-player",
+          "parentId": 9,
+          "productCount": 1,
+          "sortOrder": 6
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "name": "ACs",
+      "slug": "acs",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/2/2c8ed548-5ed3-4cb0-9e35-ec82a0b793a8/image.webp?_dc=1758118724",
+      "productCount": 115,
+      "displayOrder": 7,
+      "subCategories": [
+        {
+          "id": 45,
+          "name": "Split Air Conditioner",
+          "slug": "split-air-conditioner",
+          "parentId": 44,
+          "productCount": 33,
+          "sortOrder": 1
+        },
+        {
+          "id": 46,
+          "name": "Floor Standing Air Conditioner",
+          "slug": "floor-standing-air-conditioner",
+          "parentId": 44,
+          "productCount": 23,
+          "sortOrder": 2
+        },
+        {
+          "id": 108,
+          "name": "Inverter Air Conditioner",
+          "slug": "inverter-air-conditioner",
+          "parentId": 44,
+          "productCount": 40,
+          "sortOrder": 3
+        },
+        {
+          "id": 47,
+          "name": "Portable Air Conditioner",
+          "slug": "portable-air-conditioner",
+          "parentId": 44,
+          "productCount": 4,
+          "sortOrder": 4
+        },
+        {
+          "id": 112,
+          "name": "Air Purifiers & Dehumidifiers",
+          "slug": "air-purifiers-dehumidifiers",
+          "parentId": 44,
+          "productCount": 11,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": 177,
+      "name": "Cookers/Microwave",
+      "slug": "cookers-microwave",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/2/2bdc3fc1-e362-4301-894d-a7b83a65a334/image.webp?_dc=1758118724",
+      "productCount": 91,
+      "displayOrder": 8,
+      "subCategories": [
+        {
+          "id": 179,
+          "name": "Microwaves",
+          "slug": "microwaves",
+          "parentId": 177,
+          "productCount": 29,
+          "sortOrder": 1
+        },
+        {
+          "id": 178,
+          "name": "Gas Cookers",
+          "slug": "gas-cookers",
+          "parentId": 177,
+          "productCount": 32,
+          "sortOrder": 2
+        },
+        {
+          "id": 180,
+          "name": "Table Top",
+          "slug": "table-top",
+          "parentId": 177,
+          "productCount": 15,
+          "sortOrder": 3
+        },
+        {
+          "id": 181,
+          "name": "Oven",
+          "slug": "oven",
+          "parentId": 177,
+          "productCount": 7,
+          "sortOrder": 4
+        },
+        {
+          "id": 188,
+          "name": "Extractor Hood",
+          "slug": "extractor-hood",
+          "parentId": 177,
+          "productCount": 8,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "name": "Small Appliances/Fans",
+      "slug": "small-appliances-fans",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/5/53144e5b-6f9c-4ac2-bf9d-6a6e197ad8bb/image.webp?_dc=1758118724",
+      "productCount": 216,
+      "displayOrder": 9,
+      "subCategories": [
+        {
+          "id": 75,
+          "name": "Small Kitchen Appliances",
+          "slug": "small-kitchen-appliances",
+          "parentId": 49,
+          "productCount": 87,
+          "sortOrder": 1
+        },
+        {
+          "id": 182,
+          "name": "Fan",
+          "slug": "fan",
+          "parentId": 49,
+          "productCount": 36,
+          "sortOrder": 2
+        },
+        {
+          "id": 51,
+          "name": "Air Fryer",
+          "slug": "air-fryer",
+          "parentId": 49,
+          "productCount": 23,
+          "sortOrder": 3
+        },
+        {
+          "id": 110,
+          "name": "Ice Makers",
+          "slug": "ice-makers",
+          "parentId": 49,
+          "productCount": 4,
+          "sortOrder": 4
+        },
+        {
+          "id": 202,
+          "name": "SMEG Appliances",
+          "slug": "smeg-appliances",
+          "parentId": 49,
+          "productCount": 66,
+          "sortOrder": 5
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "name": "Power Solution",
+      "slug": "power-solution",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/605dc71a-3189-4bc0-b186-c7eb385deffd/image.webp?_dc=1758118724",
+      "productCount": 174,
+      "displayOrder": 10,
+      "subCategories": [
+        {
+          "id": 109,
+          "name": "Generators",
+          "slug": "generators",
+          "parentId": 39,
+          "productCount": 18,
+          "sortOrder": 1
+        },
+        {
+          "id": 123,
+          "name": "UPS",
+          "slug": "ups",
+          "parentId": 39,
+          "productCount": 5,
+          "sortOrder": 2
+        },
+        {
+          "id": 40,
+          "name": "Solar Panels",
+          "slug": "solar-panels",
+          "parentId": 39,
+          "productCount": 41,
+          "sortOrder": 3
+        },
+        {
+          "id": 200,
+          "name": "Panel Mounting Accessories",
+          "slug": "panel-mounting-accessories",
+          "parentId": 39,
+          "productCount": 10,
+          "sortOrder": 4
+        },
+        {
+          "id": 96,
+          "name": "Huawei",
+          "slug": "huawei",
+          "parentId": 39,
+          "productCount": 11,
+          "sortOrder": 5
+        },
+        {
+          "id": 105,
+          "name": "Growatt",
+          "slug": "growatt",
+          "parentId": 39,
+          "productCount": 22,
+          "sortOrder": 6
+        },
+        {
+          "id": 199,
+          "name": "Hisense",
+          "slug": "hisense",
+          "parentId": 39,
+          "productCount": 2,
+          "sortOrder": 7
+        },
+        {
+          "id": 121,
+          "name": "Deye",
+          "slug": "deye",
+          "parentId": 39,
+          "productCount": 41,
+          "sortOrder": 8
+        },
+        {
+          "id": 106,
+          "name": "Pylontech",
+          "slug": "pylontech",
+          "parentId": 39,
+          "productCount": 12,
+          "sortOrder": 9
+        },
+        {
+          "id": 190,
+          "name": "Transformers",
+          "slug": "transformers",
+          "parentId": 39,
+          "productCount": 10,
+          "sortOrder": 10
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "name": "Furniture",
+      "slug": "furniture",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/14bee6c2-b706-4468-bd4f-e575b0816293/image.webp?_dc=1758118724",
+      "productCount": 36,
+      "displayOrder": 11,
+      "subCategories": [
+        {
+          "id": 192,
+          "name": "Office Desks and tables",
+          "slug": "office-desks-and-tables",
+          "parentId": 33,
+          "productCount": 6,
+          "sortOrder": 1
+        },
+        {
+          "id": 189,
+          "name": "TV Stands",
+          "slug": "tv-stands",
+          "parentId": 33,
+          "productCount": 30,
+          "sortOrder": 1
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "name": "Apple",
+      "slug": "apple",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/6b1c5920-031c-44ee-b845-f2bbbadfd818/image.webp?_dc=1795091762",
+      "productCount": 12,
+      "displayOrder": 12,
+      "subCategories": [
+        {
+          "id": 206,
+          "name": "iPhone 18 Pro Max",
+          "slug": "iphone-18-pro-max",
+          "parentId": 204,
+          "productCount": 4,
+          "sortOrder": 1
+        },
+        {
+          "id": 205,
+          "name": "iPhone 18 Pro",
+          "slug": "iphone-18-pro",
+          "parentId": 204,
+          "productCount": 3,
+          "sortOrder": 1
+        }
+      ]
+    },
+    {
+      "id": 183,
+      "name": "Others",
+      "slug": "others",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/a/a950f154-8168-48df-807a-56a0f571b682/image.webp?_dc=1758118724",
+      "productCount": 16,
+      "displayOrder": 13,
+      "subCategories": [
+        {
+          "id": 185,
+          "name": "Water Heater",
+          "slug": "water-heater",
+          "parentId": 183,
+          "productCount": 3,
+          "sortOrder": 1
+        },
+        {
+          "id": 186,
+          "name": "Dish Washer",
+          "slug": "dish-washer",
+          "parentId": 183,
+          "productCount": 3,
+          "sortOrder": 1
+        },
+        {
+          "id": 184,
+          "name": "Water Dispenser",
+          "slug": "water-dispenser",
+          "parentId": 183,
+          "productCount": 10,
+          "sortOrder": 1
+        }
+      ]
+    }
+  ],
+  "brands": [
+    {
+      "id": 6,
+      "name": "Actiu",
+      "slug": "actiu",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/0306b8cb-2065-40c1-bff7-f6a789d6b24f/image.webp?_dc=1758118724",
+      "productCount": 91,
+      "sortOrder": 1
+    },
+    {
+      "id": 8,
+      "name": "Pylontech",
+      "slug": "pylontech",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/5/5c8f52a4-6ed2-4798-bf3b-c31e92593be0/image.webp?_dc=1758118724",
+      "productCount": 12,
+      "sortOrder": 1
+    },
+    {
+      "id": 13,
+      "name": "Mora",
+      "slug": "mora",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/73599188-846d-4b93-92cf-f8bc005c0a2d/image.webp?_dc=1758118724",
+      "productCount": 4,
+      "sortOrder": 1
+    },
+    {
+      "id": 14,
+      "name": "JA Solar",
+      "slug": "ja-solar",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/3/3b268acf-a674-4e0a-b0d6-79affdc7edd2/image.webp?_dc=1758118724",
+      "productCount": 2,
+      "sortOrder": 1
+    },
+    {
+      "id": 15,
+      "name": "ZN-SHINE Solar",
+      "slug": "zn-shine-solar",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/3/3df4b980-0170-4f8a-8fb4-886f04a36464/image.webp?_dc=1759395662",
+      "productCount": 4,
+      "sortOrder": 1
+    },
+    {
+      "id": 18,
+      "name": "smeg",
+      "slug": "smeg",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/9/979a1684-33e4-4abf-bdfd-a467e9a5335e/image.webp?_dc=1793879882",
+      "productCount": 62,
+      "sortOrder": 1
+    },
+    {
+      "id": 19,
+      "name": "Apple",
+      "slug": "apple",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/8/87a1b79f-33b1-4876-8b23-8cbcec33baa3/image.webp?_dc=1795090622",
+      "productCount": 7,
+      "sortOrder": 1
+    },
+    {
+      "id": 9,
+      "name": "Jinko",
+      "slug": "jinko",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/fdf00b46-4e33-422a-a05d-1bce71303678/image.webp?_dc=1759396862",
+      "productCount": 34,
+      "sortOrder": 1
+    },
+    {
+      "id": 4,
+      "name": "Huawei",
+      "slug": "huawei",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/1e3360bd-4f20-4ffb-93b2-4e20b87f7bb6/image.webp?_dc=1793879342",
+      "productCount": 13,
+      "sortOrder": 1
+    },
+    {
+      "id": 7,
+      "name": "Maxi",
+      "slug": "maxi",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/7ad7bc36-8c40-46ff-93a3-cd31e356a604/image.webp?_dc=1758118724",
+      "productCount": 216,
+      "sortOrder": 1
+    },
+    {
+      "id": 10,
+      "name": "Growatt",
+      "slug": "growatt",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f4b32fd8-e661-4f61-982d-0d2c6e636a80/image.webp?_dc=1759396262",
+      "productCount": 17,
+      "sortOrder": 1
+    },
+    {
+      "id": 11,
+      "name": "Provincia",
+      "slug": "provincia",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/7fd633c3-28f2-426e-bc73-594acda58ed3/image.webp?_dc=1758118724",
+      "productCount": 23,
+      "sortOrder": 1
+    },
+    {
+      "id": 12,
+      "name": "Deye",
+      "slug": "deye",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/9/93286606-7041-4178-91dd-6868ecf67933/image.webp?_dc=1793879103",
+      "productCount": 37,
+      "sortOrder": 1
+    },
+    {
+      "id": 16,
+      "name": "TSTY",
+      "slug": "tsty",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/5/5886d32a-596a-4886-a167-d19455d00ad0/image.webp?_dc=1758118724",
+      "productCount": 3,
+      "sortOrder": 1
+    },
+    {
+      "id": 5,
+      "name": "Hisense",
+      "slug": "hisense",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/01e674b8-5624-42c7-958c-aa8b0dba4ee4/image.webp?_dc=1758118724",
+      "productCount": 391,
+      "sortOrder": 1
+    },
+    {
+      "id": 1,
+      "name": "LG",
+      "slug": "lg",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/688079c6-0d5a-4d37-94fb-bff402b40685/image.webp?_dc=1758118724",
+      "productCount": 356,
+      "sortOrder": 1
+    },
+    {
+      "id": 17,
+      "name": "ANTAI",
+      "slug": "antai",
+      "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/1e0c7574-3948-425b-a320-e353303a8196/image.webp?_dc=1779197582",
+      "productCount": 8,
+      "sortOrder": 1
+    }
+  ],
+  "homeLayout": {
+    "heroBanners": [
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 2,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/2/2e9a2d81-d041-40e2-9aab-0e1d1be2727e/image.webp?_dc=1794414422",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/3/3e8774cd-4be8-4e4f-baf6-18a40680295a/image.webp?_dc=1794414422",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": 18,
+        "brandName": "smeg",
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 2,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/b1c96111-ffc0-47ca-a360-ace8009786a2/image.webp?_dc=1780576982",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/8/88d2a5e0-15f5-403c-9b53-a5ef8ef61a75/image.webp?_dc=1780576982",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": 1,
+        "brandName": "LG",
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 4,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/c71a7aa9-c927-41fe-87cb-7b4ee4207461/image.webp?_dc=1759831562",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/05104e36-450a-4881-a058-3fe3592e279a/image.webp?_dc=1759831622",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": null,
+        "brandName": null,
+        "productId": "948",
+        "productName": "LG TV QNED 100 Inch QNED86A6 4K Smart TV AI Magic Remote webOS24",
+        "externalUrl": null
+      },
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 3,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/c8cb4876-b13f-40b3-b273-6555d884a607/image.webp?_dc=1783330682",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/d/df75bac8-1452-4c53-b261-c7949044ef82/image.webp?_dc=1783330682",
+        "categoryId": 39,
+        "categoryName": "Power Solution",
+        "subCategoryId": 199,
+        "subCategoryName": "Hisense",
+        "brandId": null,
+        "brandName": null,
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 2,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/c1930e1d-43a4-4ec0-83e8-9d2bf4f39aa0/image.webp?_dc=1795178883",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/b938f431-2465-441b-b2ae-a767d94b40c1/image.webp?_dc=1795178883",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": 5,
+        "brandName": "Hisense",
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      }
+    ],
+    "shopByBrands": [
+      {
+        "id": 1,
+        "name": "LG",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/688079c6-0d5a-4d37-94fb-bff402b40685/image.webp?_dc=1721404809"
+      },
+      {
+        "id": 5,
+        "name": "Hisense",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/01e674b8-5624-42c7-958c-aa8b0dba4ee4/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 7,
+        "name": "Maxi",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/7ad7bc36-8c40-46ff-93a3-cd31e356a604/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 4,
+        "name": "Huawei",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/1e3360bd-4f20-4ffb-93b2-4e20b87f7bb6/image.webp?_dc=1793879342"
+      },
+      {
+        "id": 10,
+        "name": "Growatt",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f4b32fd8-e661-4f61-982d-0d2c6e636a80/image.webp?_dc=1759396262"
+      },
+      {
+        "id": 9,
+        "name": "Jinko",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/fdf00b46-4e33-422a-a05d-1bce71303678/image.webp?_dc=1759396862"
+      },
+      {
+        "id": 12,
+        "name": "Deye",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/9/93286606-7041-4178-91dd-6868ecf67933/image.webp?_dc=1793879103"
+      },
+      {
+        "id": 18,
+        "name": "smeg",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/9/979a1684-33e4-4abf-bdfd-a467e9a5335e/image.webp?_dc=1793879882"
+      }
+    ],
+    "spotlightProductId": "948",
+    "categoryCards": [
+      {
+        "id": 15,
+        "name": "Refrigerator",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f348bb8d-85e6-4962-a5d6-8466cae721f6/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 18,
+        "name": "Washing Machines",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/d/d55e8175-e9af-48a0-b235-0f7d95bba0ba/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 5,
+        "name": "TVs",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/bfe708f6-0ee4-4e06-8b55-533142418918/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 9,
+        "name": "Audio",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f22845fe-d422-4da7-b45f-61c0e7fd2282/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 44,
+        "name": "ACs",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/2/2c8ed548-5ed3-4cb0-9e35-ec82a0b793a8/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 49,
+        "name": "Small Appliances/Fans",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/5/53144e5b-6f9c-4ac2-bf9d-6a6e197ad8bb/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 39,
+        "name": "Power Solution",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/6/605dc71a-3189-4bc0-b186-c7eb385deffd/image.webp?_dc=1758118724"
+      },
+      {
+        "id": 33,
+        "name": "Furnitures",
+        "image": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/14bee6c2-b706-4468-bd4f-e575b0816293/image.webp?_dc=1758118724"
+      }
+    ],
+    "promoBanners3Col": [
+      {
+        "title": "HISTV85Q6Q",
+        "description": "Buy Hisense TV QLED 85 Inch Q6Q 4K Smart And Get Free LG Soundbar with Subwoofer 340W",
+        "buttonText": "View Product",
+        "buttonAction": 4,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/1d5e0db9-37ff-45ce-8055-785a897bf430/image.webp?_dc=1776429242",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/1d5e0db9-37ff-45ce-8055-785a897bf430/image.webp?_dc=1776429242",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": null,
+        "brandName": null,
+        "productId": "854",
+        "productName": "Hisense TV QLED 85 Inch Q6Q 4K Smart",
+        "externalUrl": null
+      },
+      {
+        "title": "HISTVLASERPX3",
+        "description": "Buy Hisense Laser Cinema TV 80-150 Inch Projection Size PX3 And Get Free Hisense 120″(Inch) ALR Screen",
+        "buttonText": "View Product",
+        "buttonAction": 4,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/e/e7024751-3e4f-482a-af40-0672756f298d/image.webp?_dc=1789559822",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/e/e7024751-3e4f-482a-af40-0672756f298d/image.webp?_dc=1789559822",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": null,
+        "brandName": null,
+        "productId": "734",
+        "productName": "Hisense Laser Cinema TV 80-150 Inch Projection Size PX3 4K Smart",
+        "externalUrl": null
+      },
+      {
+        "title": "LG Chest Freezer",
+        "description": "Buy Any Of The Selected LG Chest Freezer And Get Free Maxi Air Fryer 5L Black",
+        "buttonText": "View Products",
+        "buttonAction": 3,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/79d115f7-1f0e-45d7-8569-19a6045fe469/image.webp?_dc=1790773982",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/79d115f7-1f0e-45d7-8569-19a6045fe469/image.webp?_dc=1790773982",
+        "categoryId": 114,
+        "categoryName": "Promotions",
+        "subCategoryId": 116,
+        "subCategoryName": "Promo ACs",
+        "brandId": null,
+        "brandName": null,
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "Hisense Washing Machine",
+        "description": "Buy Any Of The Selected Hisense Washing Machines And Get Free Maxi Microwave 20L 700W",
+        "buttonText": "View Products",
+        "buttonAction": 3,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/0883a71d-341f-4c0f-b1a7-84dab7648e5e/image.webp?_dc=1792656482",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/0883a71d-341f-4c0f-b1a7-84dab7648e5e/image.webp?_dc=1792656482",
+        "categoryId": 114,
+        "categoryName": "Promotions",
+        "subCategoryId": 120,
+        "subCategoryName": "Washing Machines",
+        "brandId": null,
+        "brandName": null,
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "LGREF252SLBB / LGREF242PQGB",
+        "description": "Buy LG Top Freezer Refrigerator 260L / 263L And Get Free LG Microwave 20L 700W",
+        "buttonText": "View Products",
+        "buttonAction": 3,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/4/4817113d-5187-4883-8b52-0ac83a05bd23/image.webp?_dc=1794042242",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/4/4817113d-5187-4883-8b52-0ac83a05bd23/image.webp?_dc=1794042242",
+        "categoryId": 114,
+        "categoryName": "Promotions",
+        "subCategoryId": 201,
+        "subCategoryName": "Freezers",
+        "brandId": null,
+        "brandName": null,
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "HISTV32A4S",
+        "description": "Buy Hisense TV FHD 32 Inch A4S Smart TV And Get Free Maxi Standing Fan 16 inch Black",
+        "buttonText": "View Product",
+        "buttonAction": 4,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/b6050d60-46dd-449c-99ab-51732c060877/image.webp?_dc=1794042304",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/b/b6050d60-46dd-449c-99ab-51732c060877/image.webp?_dc=1794042304",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": null,
+        "brandName": null,
+        "productId": "1044",
+        "productName": "Hisense TV FHD 32 Inch A4S Smart TV",
+        "externalUrl": null
+      },
+      {
+        "title": "HISREF29DCA-RD",
+        "description": "Buy Hisense Bottom Freezer Refrigerator 225L Ang Get free Maxi Microwave 20L 700W",
+        "buttonText": "View Product",
+        "buttonAction": 4,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/cfe28049-ffbe-4185-b4bf-0f067af87eb3/image.webp?_dc=1794384482",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/cfe28049-ffbe-4185-b4bf-0f067af87eb3/image.webp?_dc=1794384482",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": null,
+        "brandName": null,
+        "productId": "134",
+        "productName": "Hisense Bottom Freezer Refrigerator 225L (29DCA)",
+        "externalUrl": null
+      }
+    ],
+    "brandBanners2Col": [
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 2,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/cb0b4558-36ee-4745-b3fc-f9c3c62055f4/image.webp?_dc=1793961662",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/1/14c13b54-5d07-4296-8a50-117e78f8c45e/image.webp?_dc=1793961782",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": 5,
+        "brandName": "Hisense",
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      },
+      {
+        "title": "",
+        "description": "",
+        "buttonText": "Shop Now",
+        "buttonAction": 2,
+        "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f498cc2f-14d9-4e54-9293-ed25fba5553f/image.webp?_dc=1758118724",
+        "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/f/f498cc2f-14d9-4e54-9293-ed25fba5553f/image.webp?_dc=1758118724",
+        "categoryId": null,
+        "categoryName": null,
+        "subCategoryId": null,
+        "subCategoryName": null,
+        "brandId": 1,
+        "brandName": "LG",
+        "productId": null,
+        "productName": null,
+        "externalUrl": null
+      }
+    ],
+    "featuredProductIds": [
+      "789",
+      "375",
+      "261",
+      "92",
+      "721",
+      "816",
+      "745",
+      "675",
+      "910",
+      "1016",
+      "859",
+      "968",
+      "1017",
+      "220",
+      "1009",
+      "857",
+      "1001",
+      "576"
+    ],
+    "hisenseWideBanner": {
+      "title": "",
+      "description": "",
+      "buttonText": "Shop Now",
+      "buttonAction": 2,
+      "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/c/c66747ec-81ce-4570-bbc0-348b8bef9c12/image.webp?_dc=1795178943",
+      "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/7/799caeba-6d9e-4e2c-b95f-93146a5103b7/image.webp?_dc=1795178943",
+      "categoryId": null,
+      "categoryName": null,
+      "subCategoryId": null,
+      "subCategoryName": null,
+      "brandId": 5,
+      "brandName": "Hisense",
+      "productId": null,
+      "productName": null,
+      "externalUrl": null
+    },
+    "solarProductIds": [
+      "1053",
+      "1117",
+      "1158",
+      "1032",
+      "1179",
+      "1065",
+      "1069",
+      "1180",
+      "1159",
+      "1193",
+      "1127",
+      "1047",
+      "554"
+    ],
+    "lgWideBanner": {
+      "title": "",
+      "description": "",
+      "buttonText": "Shop Now",
+      "buttonAction": 2,
+      "webImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/03dca621-65f6-4e75-ba77-e4b7082bb59a/image.webp?_dc=1768054441",
+      "mobileImage": "https://salva.ams3.cdn.digitaloceanspaces.com/production/tenants/fouani/picture/0/03dca621-65f6-4e75-ba77-e4b7082bb59a/image.webp?_dc=1768054441",
+      "categoryId": null,
+      "categoryName": null,
+      "subCategoryId": null,
+      "subCategoryName": null,
+      "brandId": 1,
+      "brandName": "LG",
+      "productId": null,
+      "productName": null,
+      "externalUrl": null
+    },
+    "kitchenProductIds": [
+      "1004",
+      "991",
+      "982",
+      "903",
+      "845",
+      "877",
+      "834",
+      "840",
+      "670",
+      "324",
+      "306",
+      "312",
+      "271",
+      "267",
+      "252",
+      "257"
+    ],
+    "sortOptions": [
+      {
+        "id": 1,
+        "name": "Default"
+      },
+      {
+        "id": 2,
+        "name": "Popularity"
+      },
+      {
+        "id": 3,
+        "name": "Recently Added"
+      },
+      {
+        "id": 4,
+        "name": "Price Low To High"
+      },
+      {
+        "id": 5,
+        "name": "Price High To Low"
+      },
+      {
+        "id": 6,
+        "name": "Alphabetically Asc"
+      },
+      {
+        "id": 7,
+        "name": "Alphabetically Desc"
+      },
+      {
+        "id": 8,
+        "name": "Discounted Product"
+      }
+    ],
+    "filterableAttributes": [
+      {
+        "id": 1,
+        "uuid": "bcbf7273-2843-422d-a023-134474e0054c",
+        "name": "Type",
+        "is_active": true,
+        "sort_order": 0,
+        "created_at": "2025-10-22T12:50:38.000000Z",
+        "deleted_at": null
+      },
+      {
+        "id": 3,
+        "uuid": "d82132eb-9bf6-4ccd-8957-c8a0445cebcc",
+        "name": "Small Appliances",
+        "is_active": true,
+        "sort_order": 0,
+        "created_at": "2026-11-03T14:46:39.000000Z",
+        "deleted_at": null
+      }
+    ]
+  },
+  "migratedAt": "2026-11-20T15:34:58.893Z",
+  "totalProducts": 827
+}

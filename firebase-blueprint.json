@@ -1,0 +1,301 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "E-commerce appliance, electronics, solar, furniture, or Apple product item.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 220 },
+        "slug": { "type": "string", "minLength": 2, "maxLength": 220, "pattern": "^[a-z0-9\\-]+$" },
+        "sku": { "type": "string", "minLength": 2, "maxLength": 64 },
+        "brand": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "category": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "categories": { "type": "array" },
+        "subCategories": { "type": "array" },
+        "priceNgn": { "type": "number" },
+        "originalPriceNgn": { "type": "number" },
+        "stockQty": { "type": "number" },
+        "nbViews": { "type": "number" },
+        "warranty": { "type": "string", "maxLength": 140 },
+        "shortDescription": { "type": "string", "maxLength": 340 },
+        "description": { "type": "string", "maxLength": 4500 },
+        "specs": { "type": "object" },
+        "images": { "type": "array" },
+        "thumbImage": { "type": "string", "maxLength": 600 },
+        "createdAtIso": { "type": "string", "maxLength": 64 },
+        "featured": { "type": "boolean" },
+        "onPromotion": { "type": "boolean" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "slug", "sku", "brand", "category", "priceNgn", "stockQty", "warranty", "shortDescription", "description", "images", "isActive", "createdAt", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Storefront product category.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "slug": { "type": "string", "minLength": 2, "maxLength": 100, "pattern": "^[a-z0-9\\-]+$" },
+        "description": { "type": "string", "maxLength": 300 },
+        "image": { "type": "string", "maxLength": 600 },
+        "productCount": { "type": "number" },
+        "displayOrder": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "slug", "displayOrder", "isActive", "createdAt", "updatedAt"]
+    },
+    "Brand": {
+      "title": "Brand",
+      "description": "Authorized electronics and appliance manufacturer brand.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "slug": { "type": "string", "minLength": 1, "maxLength": 100, "pattern": "^[a-z0-9\\-]+$" },
+        "tagline": { "type": "string", "maxLength": 140 },
+        "image": { "type": "string", "maxLength": 600 },
+        "productCount": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "slug", "isActive", "createdAt", "updatedAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Customer profile containing PII isolated strictly to owner and admin.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "defaultCity": { "type": "string", "maxLength": 80 },
+        "defaultState": { "type": "string", "maxLength": 80 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "fullName", "email", "createdAt", "updatedAt"]
+    },
+    "DeliveryAddress": {
+      "title": "DeliveryAddress",
+      "description": "Customer saved delivery address.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "label": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "recipientName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "phone": { "type": "string", "minLength": 6, "maxLength": 32 },
+        "streetAddress": { "type": "string", "minLength": 5, "maxLength": 250 },
+        "city": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "state": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "landmark": { "type": "string", "maxLength": 160 },
+        "isDefault": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "label", "recipientName", "phone", "streetAddress", "city", "state", "isDefault", "createdAt", "updatedAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer order with shipping validation and payment method state.",
+      "type": "object",
+      "properties": {
+        "orderRef": { "type": "string", "minLength": 6, "maxLength": 64, "pattern": "^[A-Z0-9\\-]+$" },
+        "userId": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "customerName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "customerEmail": { "type": "string", "maxLength": 160 },
+        "customerPhone": { "type": "string", "maxLength": 32 },
+        "deliveryAddress": { "type": "string", "maxLength": 320 },
+        "deliveryCity": { "type": "string", "maxLength": 80 },
+        "deliveryState": { "type": "string", "maxLength": 80 },
+        "items": { "type": "array" },
+        "subtotalNgn": { "type": "number" },
+        "shippingFeeNgn": { "type": "number" },
+        "freeShippingApplied": { "type": "boolean" },
+        "totalNgn": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["pay_now", "save_to_buy", "credably_bnpl"] },
+        "paymentStatus": { "type": "string", "enum": ["awaiting_payment_verification", "deposit_pending_verification", "partially_paid", "paid_verified", "credably_pending", "credably_approved", "credably_declined", "credably_failed", "rejected"] },
+        "orderStatus": { "type": "string", "enum": ["awaiting_payment_verification", "processing", "ready_for_dispatch", "out_for_delivery", "delivered", "cancelled"] },
+        "instalmentPlanId": { "type": "string", "maxLength": 128 },
+        "credablyReference": { "type": "string", "maxLength": 128 },
+        "credablySettlementStatus": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderRef", "userId", "customerName", "customerEmail", "customerPhone", "deliveryAddress", "deliveryCity", "deliveryState", "items", "subtotalNgn", "shippingFeeNgn", "freeShippingApplied", "totalNgn", "paymentMethod", "paymentStatus", "orderStatus", "createdAt", "updatedAt"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Bank transfer or BNPL payment record linked to an order.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "minLength": 2, "maxLength": 128 },
+        "orderRef": { "type": "string", "minLength": 6, "maxLength": 64 },
+        "userId": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "instalmentPlanId": { "type": "string", "maxLength": 128 },
+        "instalmentNumber": { "type": "number" },
+        "amountNgn": { "type": "number" },
+        "method": { "type": "string", "enum": ["bank_transfer", "save_to_buy_deposit", "save_to_buy_instalment", "credably_bnpl"] },
+        "bankName": { "type": "string", "maxLength": 80 },
+        "accountNumber": { "type": "string", "maxLength": 32 },
+        "accountName": { "type": "string", "maxLength": 120 },
+        "referenceCode": { "type": "string", "maxLength": 100 },
+        "receiptId": { "type": "string", "maxLength": 128 },
+        "receiptUrl": { "type": "string", "maxLength": 600 },
+        "status": { "type": "string", "enum": ["pending_verification", "approved", "rejected"] },
+        "verifiedBy": { "type": "string", "maxLength": 128 },
+        "rejectionReason": { "type": "string", "maxLength": 300 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "orderRef", "userId", "amountNgn", "method", "status", "createdAt", "updatedAt"]
+    },
+    "Receipt": {
+      "title": "Receipt",
+      "description": "Uploaded bank transfer receipt metadata stored in Cloudinary.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "minLength": 2, "maxLength": 128 },
+        "paymentId": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "instalmentPlanId": { "type": "string", "maxLength": 128 },
+        "fileName": { "type": "string", "minLength": 1, "maxLength": 180 },
+        "mimeType": { "type": "string", "enum": ["image/jpeg", "image/jpg", "image/png", "application/pdf"] },
+        "fileSize": { "type": "number" },
+        "cloudinaryPublicId": { "type": "string", "maxLength": 240 },
+        "fileUrl": { "type": "string", "minLength": 10, "maxLength": 600 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "userId", "fileName", "mimeType", "fileSize", "fileUrl", "createdAt"]
+    },
+    "InstalmentPlan": {
+      "title": "InstalmentPlan",
+      "description": "Save to Buy instalment financing plan with 50% initial deposit and repayment schedule.",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string", "minLength": 2, "maxLength": 128 },
+        "orderRef": { "type": "string", "minLength": 6, "maxLength": 64 },
+        "userId": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "totalOrderNgn": { "type": "number" },
+        "initialDepositNgn": { "type": "number" },
+        "outstandingPrincipalNgn": { "type": "number" },
+        "durationMonths": { "type": "number" },
+        "interestRatePercent": { "type": "number" },
+        "interestAmountNgn": { "type": "number" },
+        "totalRepaymentNgn": { "type": "number" },
+        "monthlyInstalmentNgn": { "type": "number" },
+        "amountPaidVerifiedNgn": { "type": "number" },
+        "remainingBalanceNgn": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending_application", "pending_deposit", "active", "completed", "overdue", "cancelled"] },
+        "adminApproved": { "type": "boolean" },
+        "extensionDaysGranted": { "type": "number" },
+        "extensionReason": { "type": "string", "maxLength": 300 },
+        "schedule": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "orderRef", "userId", "totalOrderNgn", "initialDepositNgn", "outstandingPrincipalNgn", "durationMonths", "interestRatePercent", "interestAmountNgn", "totalRepaymentNgn", "monthlyInstalmentNgn", "amountPaidVerifiedNgn", "remainingBalanceNgn", "status", "adminApproved", "schedule", "createdAt", "updatedAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User or admin notification item.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "minLength": 4, "maxLength": 128 },
+        "title": { "type": "string", "minLength": 2, "maxLength": 140 },
+        "message": { "type": "string", "minLength": 2, "maxLength": 500 },
+        "type": { "type": "string", "enum": ["order", "payment", "instalment", "shipping", "system"] },
+        "relatedOrderId": { "type": "string", "maxLength": 128 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title", "message", "type", "isRead", "createdAt"]
+    },
+    "StoreSetting": {
+      "title": "StoreSetting",
+      "description": "Storewide shipping charges and Save to Buy interest rate configuration.",
+      "type": "object",
+      "properties": {
+        "ibadanFreeShippingThresholdNgn": { "type": "number" },
+        "ibadanStandardFeeNgn": { "type": "number" },
+        "lagosFeeNgn": { "type": "number" },
+        "oyoStateFeeNgn": { "type": "number" },
+        "southWestFeeNgn": { "type": "number" },
+        "otherStatesFeeNgn": { "type": "number" },
+        "deliveryTargetDays": { "type": "number" },
+        "saveToBuyRates": { "type": "object" },
+        "depositPercent": { "type": "number" },
+        "gracePeriodDays": { "type": "number" },
+        "weeklyLateFeePercent": { "type": "number" },
+        "maxLateFeePercent": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["updatedAt"]
+    },
+    "AdminRole": {
+      "title": "AdminRole",
+      "description": "Authorized administrator marker keyed by user UID.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 6, "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 160 },
+        "grantedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "grantedAt"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Publicly readable product catalog; writable only by administrators."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Publicly readable product categories; writable only by administrators."
+    },
+    "/brands/{brandId}": {
+      "schema": { "$ref": "#/entities/Brand" },
+      "description": "Publicly readable brands; writable only by administrators."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private customer profile isolated to owner and administrators."
+    },
+    "/users/{userId}/addresses/{addressId}": {
+      "schema": { "$ref": "#/entities/DeliveryAddress" },
+      "description": "Customer saved delivery addresses isolated to owner and administrators."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Customer orders readable by owner or admin; payment/order verification controlled."
+    },
+    "/payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/Payment" },
+      "description": "Payment records created by owner as pending_verification and approved/rejected only by admin."
+    },
+    "/receipts/{receiptId}": {
+      "schema": { "$ref": "#/entities/Receipt" },
+      "description": "Receipt upload records owned by customer and verifiable by admin."
+    },
+    "/instalment_plans/{planId}": {
+      "schema": { "$ref": "#/entities/InstalmentPlan" },
+      "description": "Save to Buy instalment plans owned by customer and managed by admin."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "Notifications scoped to individual userId or admin."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/StoreSetting" },
+      "description": "Storewide shipping and Save to Buy configuration; publicly readable, admin-writable."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRole" },
+      "description": "Admin role directory readable by signed-in self/admin and writable only by super-admin."
+    }
+  }
+}
