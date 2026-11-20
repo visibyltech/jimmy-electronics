@@ -1,0 +1,24 @@
+{
+  "name": "JIMMY ELECTRONICS | MIND J-E MULTI CONCEPT",
+  "short_name": "Jimmy Electronics",
+  "description": "Shop premium home appliances, solar and electronics.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "/assets/aistudio/file_00000000b84481f4b44d267e06ddd435_d937ff89.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/aistudio/file_00000000b84481f4b44d267e06ddd435_d937ff89.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
