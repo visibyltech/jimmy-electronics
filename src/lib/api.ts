@@ -98,7 +98,13 @@ export async function uploadFileToCloudinary(params: {
     headers,
     body: JSON.stringify(params),
   });
-  const data = await res.json();
+  const responseText = await res.text();
+  let data: any;
+  try {
+    data = JSON.parse(responseText);
+  } catch {
+    throw new Error(`Image upload service returned an unexpected response (${res.status}). Please retry; if it continues, contact the administrator.`);
+  }
   if (!res.ok) {
     return {
       configured: data?.configured ?? false,
