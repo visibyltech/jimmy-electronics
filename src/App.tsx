@@ -282,7 +282,7 @@ export default function App() {
               profile={profile}
               initialTab={route.tab}
               onProfileUpdated={async () => {
-                if (user?.emailVerified) {
+                if (user) {
                   const prof = await ensureUserProfile({
                     uid: user.uid,
                     fullName: user.displayName || 'Customer',
