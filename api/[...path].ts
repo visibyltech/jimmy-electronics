@@ -63,7 +63,8 @@ function lateFee({instalmentAmountNgn,dueDateIso,extensionDaysGranted=0,referenc
 
 export default async function handler(req: any, res: any) {
   res.setHeader('Cache-Control','no-store');
-  const path = Array.isArray(req.query.path) ? req.query.path.join('/') : String(req.query.path || '');
+  const rawPath = req.query?.path;
+  const path = Array.isArray(rawPath) ? rawPath.join('/') : (typeof rawPath === 'string' && rawPath ? rawPath : String(req.url || '').split('?')[0].replace(/^\\/api\\//, ''));
   if (path === 'health' && req.method === 'GET') {
     const missingCloud=['CLOUDINARY_CLOUD_NAME','CLOUDINARY_API_KEY','CLOUDINARY_API_SECRET'].filter(k=>!process.env[k]);
     const missingCred=['CREDABLY_MERCHANT_ID','CREDABLY_API_KEY','CREDABLY_WEBHOOK_SECRET'].filter(k=>!process.env[k]);
