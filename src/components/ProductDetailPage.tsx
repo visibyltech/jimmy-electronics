@@ -145,7 +145,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
   );
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-6 sm:py-8 space-y-10">
+    <div className="max-w-[1440px] mx-auto px-3 sm:px-5 lg:px-8 py-4 sm:py-6 space-y-6 sm:space-y-8">
       {/* Breadcrumb */}
       <div className="flex flex-wrap items-center gap-2 text-xs text-gray-600">
         <button
@@ -187,7 +187,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
       </div>
 
       {/* Main Split Module */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-start">
         {/* Left: Multi-Image Gallery */}
         <div className="lg:col-span-6 space-y-4 lg:sticky lg:top-28">
           <div className="bg-white border border-gray-200 rounded-2xl aspect-square overflow-hidden flex items-center justify-center p-6 relative">
@@ -272,24 +272,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
             </div>
           </div>
 
-          {/* Warranty & Shipping Eligibility */}
-          <div className="bg-[#F8F9FA] border border-gray-200 rounded-xl p-4 space-y-2 text-xs">
-            <div className="flex items-start gap-2.5 text-gray-800">
-              <ShieldCheck className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
-              <span>
-                <strong>Warranty:</strong> {product.warranty}
-              </span>
-            </div>
-            <div className="flex items-start gap-2.5 text-gray-800">
-              <Truck className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
-              <span>
-                {qualifiesIbadanFree
-                  ? 'This order qualifies for FREE Delivery within Ibadan (strictly above ₦2,000,000).'
-                  : 'Free delivery applies strictly within Ibadan on total orders above ₦2,000,000 (orders of ₦2,000,000 exact or outside Ibadan attract configurable delivery fees).'}
-              </span>
-            </div>
-          </div>
-
           {/* Quantity + Primary Actions */}
           <div className="space-y-3">
             <div className="flex items-center gap-4">
@@ -319,12 +301,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3">
               <button
                 type="button"
                 disabled={outOfStock}
                 onClick={() => onAddToCart(product, quantity)}
-                className="py-3 px-5 rounded-full border-2 border-[#141619] text-[#141619] hover:bg-[#141619] hover:text-white disabled:opacity-40 font-semibold text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer min-h-[48px]"
+                className="py-2.5 px-2 sm:px-4 rounded-full border-2 border-[#141619] text-[#141619] hover:bg-[#141619] hover:text-white disabled:opacity-40 font-semibold text-xs sm:text-sm flex items-center justify-center gap-1.5 transition-colors cursor-pointer min-h-[44px]"
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>{outOfStock ? 'Sold Out' : 'Add to Cart'}</span>
@@ -334,10 +316,29 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
                 type="button"
                 disabled={outOfStock}
                 onClick={() => onBuyNow(product, quantity, 'pay_now')}
-                className="py-3 px-5 rounded-full bg-[#DC2626] hover:bg-[#B91C1C] disabled:opacity-40 text-white font-semibold text-sm transition-colors cursor-pointer min-h-[48px]"
+                className="py-2.5 px-2 sm:px-4 rounded-full bg-[#DC2626] hover:bg-[#B91C1C] disabled:opacity-40 text-white font-semibold text-xs sm:text-sm transition-colors cursor-pointer min-h-[44px]"
               >
                 Buy Now (Pay Now)
               </button>
+            </div>
+          </div>
+
+
+          {/* Warranty & Shipping Eligibility */}
+          <div className="bg-[#F8F9FA] border border-gray-200 rounded-xl p-4 space-y-2 text-xs">
+            <div className="flex items-start gap-2.5 text-gray-800">
+              <ShieldCheck className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
+              <span>
+                <strong>Warranty:</strong> {product.warranty}
+              </span>
+            </div>
+            <div className="flex items-start gap-2.5 text-gray-800">
+              <Truck className="w-4 h-4 text-[#DC2626] shrink-0 mt-0.5" />
+              <span>
+                {qualifiesIbadanFree
+                  ? 'This order qualifies for FREE Delivery within Ibadan (strictly above ₦2,000,000).'
+                  : 'Free delivery applies strictly within Ibadan on total orders above ₦2,000,000 (orders of ₦2,000,000 exact or outside Ibadan attract configurable delivery fees).'}
+              </span>
             </div>
           </div>
 
