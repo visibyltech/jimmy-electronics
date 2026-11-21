@@ -1,12 +1,10 @@
 {
-  "projectId": "gen-lang-client-0087310115",
-  "appId": "1:510287427601:web:d0adcd3de327519a5859b0",
-  "apiKey": "AIzaSyCpOVV-TqEoDkn0xYFy0Pzz6Z0q1OACt9c",
-  "authDomain": "gen-lang-client-0087310115.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-1d2d6a8d-f298-408d-9d6a-cabaf6ef2d8c",
-  "storageBucket": "gen-lang-client-0087310115.firebasestorage.app",
-  "messagingSenderId": "510287427601",
-  "measurementId": "",
-  "oAuthClientId": "510287427601-r8m9r832gn930b56m3f85g42782tj7pc.apps.googleusercontent.com",
-  "recaptchaSiteKey": ""
+  "apiKey": "AIzaSyBkqjHHB5Q5PJpt76jo_hTfHfNgb6kMmgs",
+  "authDomain": "jimmy-electronics.firebaseapp.com",
+  "projectId": "jimmy-electronics",
+  "storageBucket": "jimmy-electronics.firebasestorage.app",
+  "messagingSenderId": "273005634623",
+  "appId": "1:273005634623:web:099d574ddeebfd3594048a",
+  "firestoreDatabaseId": "(default)",
+  "measurementId": ""
 }
