@@ -204,8 +204,8 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
       setReceiptFile(null);
       return;
     }
-    if (file.size > 15 * 1024 * 1024) {
-      setReceiptUploadError('Receipt file size must be 15MB or less.');
+    if (file.size > 3 * 1024 * 1024) {
+      setReceiptUploadError('Receipt file size must be 3MB or less.');
       setReceiptFile(null);
       return;
     }
@@ -270,12 +270,6 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({
 
     if (!user) {
       setErrorMsg('Please sign in or register an account before placing an order.');
-      return;
-    }
-    if (!user.emailVerified) {
-      setErrorMsg(
-        'Your email address is not yet verified. Open your Account page to verify your email or sign in with Google for instant verification.'
-      );
       return;
     }
     if (!customerName.trim() || !customerPhone.trim() || !streetAddress.trim() || !deliveryCity.trim()) {
