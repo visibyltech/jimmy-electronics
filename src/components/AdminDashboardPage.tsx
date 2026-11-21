@@ -92,6 +92,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [pDesc, setPDesc] = useState('');
   const [pImages, setPImages] = useState<string[]>([]);
   const [pImageUrlInput, setPImageUrlInput] = useState('');
+  const [uploadingImagePreview, setUploadingImagePreview] = useState<string | null>(null);
   const [pFeatured, setPFeatured] = useState(false);
   const [pPromo, setPPromo] = useState(false);
 
@@ -198,8 +199,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   };
 
   const handleUploadProductImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const input = e.currentTarget;
+    const file = input.files?.[0];
+    input.value = '';
     if (!file || pImages.length >= 5) return;
+    if (!file.type.startsWith('image/')) {
+      notify('Please choose an image file.');
+      return;
+    }
+    const localPreview = URL.createObjectURL(file);
+    setUploadingImagePreview(localPreview);
     setBusyAction(true);
     try {
       const base64Data = await fileToBase64(file);
@@ -210,12 +219,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         folder: 'products',
       });
       if (!res.configured || !res.url) {
-        notify('Image upload is temporarily unavailable. Please try again later or use an image URL.');
-      } else {
-        setPImages((prev) => [...prev, res.url!].slice(0, 5));
-        notify('Product image uploaded successfully.');
+        throw new Error(res.error || 'Image upload could not be completed. Please try again.');
       }
+      setPImages((prev) => [...prev, res.url!].slice(0, 5));
+      notify('Product image uploaded successfully.');
+    } catch (error) {
+      notify(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
     } finally {
+      URL.revokeObjectURL(localPreview);
+      setUploadingImagePreview(null);
       setBusyAction(false);
     }
   };
@@ -617,20 +629,27 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     </button>
                   </div>
                 </div>
-                {pImages.length > 0 && (
-                  <div className="grid grid-cols-5 gap-2 pt-1">
+                {(pImages.length > 0 || uploadingImagePreview) && (
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 pt-1">
                     {pImages.map((img, i) => (
-                      <div key={i} className="relative border border-gray-200 rounded-lg p-1 bg-[#F8F9FA]">
-                        <ResilientImage src={img} alt="Preview" className="w-full h-14 object-contain" />
+                      <div key={i} className="relative border border-gray-200 rounded-xl p-1.5 bg-white">
+                        <ResilientImage src={img} alt={`Product image ${i + 1} preview`} className="w-full h-20 object-contain" />
                         <button
                           type="button"
+                          aria-label={`Remove product image ${i + 1}`}
                           onClick={() => setPImages((prev) => prev.filter((_, idx) => idx !== i))}
-                          className="absolute -top-1.5 -right-1.5 bg-[#DC2626] text-white rounded-full w-5 h-5 text-[10px] font-bold cursor-pointer"
+                          className="absolute -top-1.5 -right-1.5 bg-[#DC2626] text-white rounded-full w-6 h-6 text-xs font-bold cursor-pointer"
                         >
                           ×
                         </button>
                       </div>
                     ))}
+                    {uploadingImagePreview && (
+                      <div className="relative border border-blue-200 rounded-xl p-1.5 bg-blue-50">
+                        <img src={uploadingImagePreview} alt="Selected product image preview" className="w-full h-20 object-contain" />
+                        <span className="block text-[10px] text-center text-blue-700 font-semibold py-1">Uploading…</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
