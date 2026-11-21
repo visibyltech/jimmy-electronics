@@ -257,6 +257,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       });
       notify(editingId ? 'Product updated in Firestore.' : 'New product published to Firestore.');
       resetProductForm();
+    } catch (error) {
+      notify(error instanceof Error ? error.message : 'Product could not be saved. Please try again.');
     } finally {
       setBusyAction(false);
     }
