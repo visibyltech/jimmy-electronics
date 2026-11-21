@@ -37,6 +37,8 @@ import {
   subscribeAllPayments,
   subscribeAllReceipts,
   upsertProduct,
+  fetchAllCategories,
+  createStoreCategory,
 } from '../lib/firestoreService';
 import { ResilientImage } from './ResilientImage';
 import type {
@@ -65,6 +67,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   onSettingsUpdated,
   initialTab,
 }) => {
+  const [productView, setProductView] = useState<'catalog' | 'form' | 'category'>('catalog');
+  const [storeCategories, setStoreCategories] = useState(SEED_CATEGORIES);
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [tab, setTab] = useState<
     'analytics' | 'products' | 'orders' | 'save_to_buy' | 'credably' | 'shipping'
   >(initialTab || 'analytics');
@@ -76,6 +81,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [customers, setCustomers] = useState<UserProfile[]>([]);
 
   const [statusBanner, setStatusBanner] = useState('');
+
+  useEffect(() => {
+    fetchAllCategories().then(setStoreCategories);
+  }, []);
   const [busyAction, setBusyAction] = useState(false);
 
   // Product Form State
@@ -199,6 +208,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setPendingProductImages([]);
     setPFeatured(p.featured);
     setPPromo(p.onPromotion);
+    setProductView('form');
     setTab('products');
   };
 
@@ -257,6 +267,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       });
       notify(editingId ? 'Product updated in Firestore.' : 'New product published to Firestore.');
       resetProductForm();
+      setProductView('catalog');
     } catch (error) {
       notify(error instanceof Error ? error.message : 'Product could not be saved. Please try again.');
     } finally {
@@ -450,10 +461,86 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         </div>
       )}
 
-      {/* 2. Products & Bulk Import */}
+      {/* 2. Product Catalogue */}
       {tab === 'products' && (
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="space-y-5">
+          {productView === 'catalog' && (
+            <>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-xl font-bold text-[#141619]">Product Catalogue</h2>
+                  <p className="text-sm text-gray-500 mt-1">Manage products currently available in your store.</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={() => { setNewCategoryName(''); setProductView('category'); }} className="px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm font-semibold inline-flex items-center gap-2">
+                    <Plus className="w-4 h-4" /> Create Category
+                  </button>
+                  <button type="button" onClick={() => { resetProductForm(); setProductView('form'); }} className="px-4 py-3 rounded-xl bg-[#DC2626] text-white text-sm font-semibold inline-flex items-center gap-2">
+                    <Plus className="w-4 h-4" /> Upload Product
+                  </button>
+                </div>
+              </div>
+              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                <div className="px-4 sm:px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                  <h3 className="font-bold text-[#141619]">Available Products</h3>
+                  <span className="text-xs text-gray-500">{products.length} products</span>
+                </div>
+                {products.length === 0 ? (
+                  <div className="p-10 text-center text-sm text-gray-500">No products have been added yet.</div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm text-left">
+                      <thead className="bg-gray-50 text-xs text-gray-500">
+                        <tr><th className="py-3 px-4">Product</th><th className="py-3 px-4">SKU</th><th className="py-3 px-4">Category</th><th className="py-3 px-4">Price</th><th className="py-3 px-4">Stock</th><th className="py-3 px-4 text-right">Actions</th></tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {products.map((p) => (
+                          <tr key={p.id}>
+                            <td className="py-3 px-4 font-medium max-w-[180px] truncate">{p.name}</td>
+                            <td className="py-3 px-4 text-xs text-gray-500">{p.sku}</td>
+                            <td className="py-3 px-4 text-xs">{p.category}</td>
+                            <td className="py-3 px-4 font-semibold">{formatNgn(p.priceNgn)}</td>
+                            <td className="py-3 px-4 text-xs">{p.stockQty}</td>
+                            <td className="py-3 px-4 text-right whitespace-nowrap">
+                              <button type="button" onClick={() => loadProductForEdit(p)} className="p-2 text-gray-600" aria-label="Edit product"><Edit3 className="w-4 h-4" /></button>
+                              <button type="button" onClick={async () => { if (window.confirm('Delete this product?')) { await deleteProductById(p.id); } }} className="p-2 text-red-600" aria-label="Delete product"><Trash2 className="w-4 h-4" /></button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              <div className="bg-white border border-gray-200 rounded-2xl p-4">
+                <h3 className="font-semibold text-sm mb-3">Store Categories</h3>
+                <div className="flex flex-wrap gap-2">
+                  {storeCategories.map((category) => <span key={category.id} className="px-3 py-1.5 rounded-full bg-gray-100 text-xs text-gray-700">{category.name}</span>)}
+                </div>
+              </div>
+            </>
+          )}
+
+          {productView === 'category' && (
+            <div className="max-w-xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 space-y-5">
+              <div className="flex items-center justify-between">
+                <div><h2 className="text-xl font-bold">Create Category</h2><p className="text-sm text-gray-500 mt-1">Add a category to your store catalogue.</p></div>
+                <button type="button" onClick={() => setProductView('catalog')} className="text-sm text-gray-500">Cancel</button>
+              </div>
+              <label className="block text-sm font-medium">Category Name
+                <input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} maxLength={80} placeholder="e.g. Laptops" className="mt-2 w-full h-12 px-3 border border-gray-300 rounded-xl" />
+              </label>
+              <button type="button" disabled={busyAction || !newCategoryName.trim()} onClick={async () => { setBusyAction(true); try { const created = await createStoreCategory(newCategoryName); setStoreCategories((prev) => [...prev.filter((c) => c.id !== created.id), created].sort((a,b) => a.displayOrder-b.displayOrder)); setPCategory(created.name); setProductView('catalog'); setStatusBanner('Category created successfully.'); } catch (error) { setStatusBanner(error instanceof Error ? error.message : 'Could not create category.'); } finally { setBusyAction(false); } }} className="w-full py-3 bg-[#DC2626] text-white rounded-xl font-semibold disabled:opacity-50">Save Category</button>
+            </div>
+          )}
+
+          {productView === 'form' && (
+            <>
+              <div className="flex items-center justify-between">
+                <div><h2 className="text-xl font-bold">{editingId ? 'Edit Product' : 'Upload Product'}</h2><p className="text-sm text-gray-500 mt-1">Enter product details and add product images.</p></div>
+                <button type="button" onClick={() => { resetProductForm(); setProductView('catalog'); }} className="text-sm font-semibold text-red-600">Back to Catalogue</button>
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Add/Edit Form */}
             <form
               onSubmit={handleSaveProduct}
@@ -516,7 +603,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     onChange={(e) => setPCategory(e.target.value)}
                     className="w-full h-10 px-3 text-sm bg-white border border-gray-300 rounded-lg"
                   >
-                    {SEED_CATEGORIES.map((c) => (
+                    {storeCategories.map((c) => (
                       <option key={c.id} value={c.name}>
                         {c.name}
                       </option>
@@ -764,65 +851,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               </div>
             </div>
           </div>
-
-          {/* Product Inventory Table */}
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-              <h2 className="font-display text-base font-bold text-[#141619]">
-                Live Catalogue Inventory ({products.length} items)
-              </h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-[#F8F9FA] border-b border-gray-200 text-xs text-gray-600">
-                  <tr>
-                    <th className="py-3 px-4">Product</th>
-                    <th className="py-3 px-4">SKU</th>
-                    <th className="py-3 px-4">Category</th>
-                    <th className="py-3 px-4">Price</th>
-                    <th className="py-3 px-4">Stock</th>
-                    <th className="py-3 px-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {products.map((p) => (
-                    <tr key={p.id}>
-                      <td className="py-3 px-4 font-medium text-[#141619] max-w-xs truncate">
-                        {p.name}
-                      </td>
-                      <td className="py-3 px-4 font-mono-num text-xs text-gray-600">{p.sku}</td>
-                      <td className="py-3 px-4 text-xs">{p.category}</td>
-                      <td className="py-3 px-4 font-mono-num font-bold">
-                        {formatNgn(p.priceNgn)}
-                      </td>
-                      <td className="py-3 px-4 font-mono-num text-xs">{p.stockQty}</td>
-                      <td className="py-3 px-4 text-right whitespace-nowrap">
-                        <button
-                          type="button"
-                          onClick={() => loadProductForEdit(p)}
-                          className="p-1.5 text-gray-600 hover:text-[#141619] cursor-pointer mr-1"
-                          aria-label="Edit product"
-                        >
-                          <Edit3 className="w-4 h-4" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => deleteProductById(p.id)}
-                          className="p-1.5 text-gray-400 hover:text-[#DC2626] cursor-pointer"
-                          aria-label="Delete product"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       )}
-
       {/* 3. Orders & Bank Verification */}
       {tab === 'orders' && (
         <div className="space-y-4">
