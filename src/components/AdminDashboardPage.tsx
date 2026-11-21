@@ -224,6 +224,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     input.value = '';
     const available = Math.max(0, 5 - pImages.length - pendingProductImages.length);
     const selected = files.slice(0, available);
+    if (selected.some((file) => file.size > 3 * 1024 * 1024)) {
+      notify('Each product image must be 3MB or less.');
+      return;
+    }
     if (files.length > available) notify('You can add up to 5 product images.');
     const valid = selected.filter((file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type));
     if (valid.length !== selected.length) notify('Choose JPG, PNG or WEBP images only.');
