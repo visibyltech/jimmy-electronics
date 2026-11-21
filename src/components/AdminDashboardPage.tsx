@@ -13,7 +13,6 @@ import {
   CheckCircle2,
   XCircle,
   Download,
-  RefreshCw,
 } from 'lucide-react';
 import type { User } from 'firebase/auth';
 import { SEED_BRANDS, SEED_CATEGORIES } from '../data/seedCatalog';
