@@ -213,7 +213,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         notify('Image upload is temporarily unavailable. Please try again later or use an image URL.');
       } else {
         setPImages((prev) => [...prev, res.url!].slice(0, 5));
-        notify('Product image uploaded to Cloudinary.');
+        notify('Product image uploaded successfully.');
       }
     } finally {
       setBusyAction(false);
@@ -587,7 +587,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 <div className="flex flex-wrap gap-2">
                   <label className="px-3 py-2 bg-[#141619] text-white text-xs font-semibold rounded-lg inline-flex items-center gap-1.5 cursor-pointer">
                     <Upload className="w-3.5 h-3.5" />
-                    <span>Upload to Cloudinary</span>
+                    <span>Upload Images</span>
                     <input
                       type="file"
                       accept=".jpg,.jpeg,.png"
@@ -599,7 +599,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   <div className="flex-1 flex gap-1.5 min-w-[200px]">
                     <input
                       type="text"
-                      placeholder="Or paste authorized image URL"
+                      placeholder="Or paste image link"
                       value={pImageUrlInput}
                       onChange={(e) => setPImageUrlInput(e.target.value)}
                       className="flex-1 h-9 px-3 text-xs border border-gray-300 rounded-lg"
