@@ -68,7 +68,8 @@ export default async function handler(req: any, res: any) {
   if (path === 'health' && req.method === 'GET') {
     const missingCloud=['CLOUDINARY_CLOUD_NAME','CLOUDINARY_API_KEY','CLOUDINARY_API_SECRET'].filter(k=>!process.env[k]);
     const missingCred=['CREDABLY_MERCHANT_ID','CREDABLY_API_KEY','CREDABLY_WEBHOOK_SECRET'].filter(k=>!process.env[k]);
-    return res.status(200).json({ok:true,firebaseProjectConfigured:true,cloudinary:{configured:!missingCloud.length,missingEnv:missingCloud},credably:{configured:!missingCred.length,baseUrl:process.env.CREDABLY_BASE_URL||'https://api.credably.ng/v1',missingEnv:missingCred}});
+    const missingEmail=['RESEND_API_KEY'].filter(k=>!process.env[k]);
+    return res.status(200).json({ok:true,firebaseProjectConfigured:true,cloudinary:{configured:!missingCloud.length,missingEnv:missingCloud},emailNotifications:{configured:!missingEmail.length,missingEnv:missingEmail},credably:{configured:!missingCred.length,baseUrl:process.env.CREDABLY_BASE_URL||'https://api.credably.ng/v1',missingEnv:missingCred}});
   }
   if (path.startsWith('calculations/') && req.method === 'POST') {
     if(path==='calculations/shipping') return res.status(200).json(shipping(req.body||{}));
