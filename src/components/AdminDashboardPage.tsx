@@ -30,7 +30,6 @@ import {
   bulkImportProductsToFirestore,
   deleteProductById,
   saveStoreSettings,
-  seedFullCatalogToFirestore,
   subscribeAllCustomers,
   subscribeAllInstalmentPlans,
   subscribeAllOrders,
@@ -159,16 +158,22 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setTimeout(() => setStatusBanner(''), 5000);
   };
 
-  const handleSeedCatalog = async () => {
-    setBusyAction(true);
-    try {
-      const res = await seedFullCatalogToFirestore();
-      notify(
-        `Seeded ${res.productsCount} products across ${res.categoriesCount} categories and ${res.brandsCount} brands to Firestore.`
-      );
-    } finally {
-      setBusyAction(false);
-    }
+  const exportProductCatalogue = () => {
+    const columns = ['name','sku','brand','category','priceNgn','originalPriceNgn','stockQty','warranty','shortDescription','description','imageUrl','featured','onPromotion'];
+    const quote = (value: unknown) => '"' + String(value ?? '').replace(/"/g, '""') + '"';
+    const rows = products.map((p) => [
+      p.name,p.sku,p.brand,p.category,p.priceNgn,p.originalPriceNgn || '',
+      p.stockQty,p.warranty,p.shortDescription,p.description,(p.images || []).join('|'),
+      p.featured,p.onPromotion,
+    ].map(quote).join(','));
+    const csv = [columns.join(','), ...rows].join('\\r\\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'jimmy-electronics-product-catalogue.csv';
+    anchor.click();
+    URL.revokeObjectURL(url);
+    notify(`Exported ${products.length} products.`);
   };
 
   const resetProductForm = () => {
@@ -378,8 +383,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           <h1 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold mt-2">Store Dashboard</h1>
           <p className="text-xs sm:text-sm text-white/60 mt-1">Overview of sales, orders and store activity</p>
         </div>
-        <button type="button" disabled={busyAction} onClick={handleSeedCatalog} className="relative px-4 py-3 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs sm:text-sm font-semibold rounded-xl inline-flex items-center justify-center gap-2 cursor-pointer shrink-0 disabled:opacity-50">
-          <RefreshCw className="w-4 h-4" /><span>{busyAction ? 'Syncing…' : 'Sync Product Catalogue'}</span>
+        <button type="button" onClick={exportProductCatalogue} className="relative px-2.5 py-1.5 bg-white/10 hover:bg-white/15 border border-white/15 text-white/80 text-[10px] font-semibold rounded-lg inline-flex items-center justify-center gap-1.5 cursor-pointer shrink-0">
+          <Download className="w-3 h-3" /><span>Export Catalogue</span>
         </button>
       </div>
 
