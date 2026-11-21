@@ -19,12 +19,9 @@ import type { User } from 'firebase/auth';
 import { SEED_BRANDS, SEED_CATEGORIES } from '../data/seedCatalog';
 import { formatNgn, formatShortDate, parseBulkProductsCsv, slugify } from '../lib/format';
 import {
-  fetchCredablyStatus,
-  fetchServerHealth,
   fileToBase64,
   uploadFileToCloudinary,
   verifyCredablyTransaction,
-  type CredablyStatusResult,
 } from '../lib/api';
 import {
   adminManageInstalmentPlan,
@@ -77,10 +74,6 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [receipts, setReceipts] = useState<ReceiptRecord[]>([]);
   const [plans, setPlans] = useState<InstalmentPlanRecord[]>([]);
   const [customers, setCustomers] = useState<UserProfile[]>([]);
-  const [credablyStatus, setCredablyStatus] = useState<CredablyStatusResult | null>(null);
-  const [healthInfo, setHealthInfo] = useState<{
-    cloudinary: { configured: boolean; missingEnv: string[] };
-  } | null>(null);
 
   const [statusBanner, setStatusBanner] = useState('');
   const [busyAction, setBusyAction] = useState(false);
@@ -124,8 +117,6 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     const u3 = subscribeAllReceipts(setReceipts);
     const u4 = subscribeAllInstalmentPlans(setPlans);
     const u5 = subscribeAllCustomers(setCustomers);
-    fetchCredablyStatus().then(setCredablyStatus).catch(() => {});
-    fetchServerHealth().then(setHealthInfo).catch(() => {});
     return () => {
       u1();
       u2();
@@ -219,10 +210,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         folder: 'products',
       });
       if (!res.configured || !res.url) {
-        notify(
-          res.error ||
-            `Cloudinary not configured (${(res.missingEnv || []).join(', ')}). You can still paste an authorized image URL below.`
-        );
+        notify('Image upload is temporarily unavailable. Please try again later or use an image URL.');
       } else {
         setPImages((prev) => [...prev, res.url!].slice(0, 5));
         notify('Product image uploaded to Cloudinary.');
@@ -360,24 +348,16 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 lg:px-8 py-8 space-y-6">
-      <div className="bg-[#141619] text-white rounded-xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <p className="text-xs font-semibold text-[#EF4444]">
-            MIND J-E MULTI CONCEPT · Administrator Console
-          </p>
-          <h1 className="font-display text-2xl font-bold mt-0.5">
-            Store Operations & Verification Dashboard
-          </h1>
+    <div className="max-w-[1440px] mx-auto px-3 sm:px-5 lg:px-8 py-5 lg:py-8 space-y-5 lg:space-y-7">
+      <div className="relative overflow-hidden bg-[#15171B] text-white rounded-2xl p-5 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        <div className="absolute -right-12 -top-16 w-56 h-56 rounded-full bg-red-600/10 blur-3xl pointer-events-none" />
+        <div className="relative min-w-0">
+          <p className="text-[10px] sm:text-xs tracking-[0.18em] uppercase font-bold text-red-400">Mind J-E Multi Concept</p>
+          <h1 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold mt-2">Store Dashboard</h1>
+          <p className="text-xs sm:text-sm text-white/60 mt-1">Overview of sales, orders and store activity</p>
         </div>
-        <button
-          type="button"
-          disabled={busyAction}
-          onClick={handleSeedCatalog}
-          className="px-4 py-2.5 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-semibold rounded-lg inline-flex items-center gap-2 cursor-pointer shrink-0"
-        >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Sync Full 44-Product Catalogue</span>
+        <button type="button" disabled={busyAction} onClick={handleSeedCatalog} className="relative px-4 py-3 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs sm:text-sm font-semibold rounded-xl inline-flex items-center justify-center gap-2 cursor-pointer shrink-0 disabled:opacity-50">
+          <RefreshCw className="w-4 h-4" /><span>{busyAction ? 'Syncing…' : 'Sync Product Catalogue'}</span>
         </button>
       </div>
 
@@ -388,7 +368,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       )}
 
       {/* Admin Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar p-1.5 bg-gray-100/80 rounded-2xl border border-gray-200/70">
         {(
           [
             { id: 'analytics', label: 'Analytics', icon: BarChart3 },
@@ -405,11 +385,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
               key={item.id}
               type="button"
               onClick={() => setTab(item.id)}
-              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer min-h-[42px] ${
-                tab === item.id
-                  ? 'bg-[#DC2626] text-white'
-                  : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-              }`}
+              className={`inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl text-[11px] sm:text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer min-h-[42px] transition-colors ${tab === item.id ? 'bg-[#17191D] text-white shadow-sm' : 'text-gray-600 hover:bg-white hover:text-gray-900'}`}
             >
               <Icon className="w-4 h-4" />
               <span>{item.label}</span>
@@ -420,9 +396,9 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
       {/* 1. Analytics */}
       {tab === 'analytics' && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="space-y-4 lg:space-y-6">
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+            <div className="bg-white border border-gray-200/80 rounded-2xl p-4 sm:p-5 shadow-[0_2px_12px_rgba(15,23,42,0.035)]">
               <p className="text-xs font-semibold text-gray-500">Verified Revenue (Firestore)</p>
               <p className="font-mono-num text-2xl font-extrabold text-[#141619] mt-1">
                 {formatNgn(analytics.verifiedRevenue)}
@@ -460,36 +436,6 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
             </div>
           </div>
 
-          {/* Integration Readiness Summary */}
-          <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-3">
-            <h2 className="font-display text-base font-bold text-[#141619]">
-              External Service Configuration Status
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-              <div className="p-4 rounded-lg border border-gray-200 bg-[#F8F9FA] space-y-1">
-                <p className="font-bold text-[#141619]">
-                  Cloudinary Media Storage:{' '}
-                  {healthInfo?.cloudinary.configured ? 'Configured' : 'Credentials Required'}
-                </p>
-                {!healthInfo?.cloudinary.configured && (
-                  <p className="text-gray-600">
-                    Missing Server Env: {(healthInfo?.cloudinary.missingEnv || ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET']).join(', ')}
-                  </p>
-                )}
-              </div>
-              <div className="p-4 rounded-lg border border-gray-200 bg-[#F8F9FA] space-y-1">
-                <p className="font-bold text-[#141619]">
-                  Credably BNPL API:{' '}
-                  {credablyStatus?.configured ? 'Configured' : 'Merchant Credentials Required'}
-                </p>
-                {!credablyStatus?.configured && (
-                  <p className="text-gray-600">
-                    Missing Server Env: {(credablyStatus?.missingEnv || ['CREDABLY_MERCHANT_ID', 'CREDABLY_API_KEY', 'CREDABLY_WEBHOOK_SECRET']).join(', ')}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
       )}
 
@@ -1098,29 +1044,10 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
       {/* 5. Credably BNPL Monitor */}
       {tab === 'credably' && (
         <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 pb-4">
-            <div>
-              <h2 className="font-display text-lg font-bold text-[#141619]">
-                Credably BNPL Transactions & Settlement Status
-              </h2>
-              <p className="text-xs text-gray-600 mt-0.5">
-                API Endpoint: {credablyStatus?.baseUrl || 'https://api.credably.ng/v1'} ·{' '}
-                {credablyStatus?.configured ? 'Live Merchant Connected' : 'Merchant Credentials Required'}
-              </p>
-            </div>
+          <div className="border-b border-gray-100 pb-4">
+            <h2 className="font-display text-lg font-bold text-[#141619]">Credably BNPL Transactions</h2>
+            <p className="text-xs text-gray-500 mt-1">Review customer financing applications and transaction status</p>
           </div>
-
-          {!credablyStatus?.configured && (
-            <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-900 space-y-1">
-              <p className="font-bold">Activation Checklist (credably.ng)</p>
-              <p>
-                Add these environment variables on the backend server:{' '}
-                <span className="font-mono-num font-bold">
-                  {(credablyStatus?.missingEnv || ['CREDABLY_MERCHANT_ID', 'CREDABLY_API_KEY', 'CREDABLY_WEBHOOK_SECRET']).join(', ')}
-                </span>
-              </p>
-            </div>
-          )}
 
           <div className="space-y-3">
             {orders.filter((o) => o.paymentMethod === 'credably_bnpl').length === 0 ? (
