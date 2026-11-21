@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 export const config = {
-  api: { bodyParser: { sizeLimit: '16mb' } },
+  api: { bodyParser: { sizeLimit: '4mb' } },
 };
 
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'jimmy-electronics';
@@ -84,8 +84,8 @@ export default async function handler(req: any, res: any) {
 
   const cleanBase64 = String(base64Data).includes(',') ? String(base64Data).split(',')[1] : String(base64Data);
   const bytes = Buffer.from(cleanBase64, 'base64');
-  if (!bytes.length || bytes.length > 10 * 1024 * 1024) {
-    return res.status(400).json({ configured: true, error: 'Each image must be smaller than 10MB.' });
+  if (!bytes.length || bytes.length > 3 * 1024 * 1024) {
+    return res.status(400).json({ configured: true, error: 'Each image must be 3MB or less.' });
   }
 
   const timestamp = Math.floor(Date.now() / 1000);
