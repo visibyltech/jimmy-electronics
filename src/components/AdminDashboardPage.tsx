@@ -22,6 +22,7 @@ import {
   fileToBase64,
   uploadFileToCloudinary,
   verifyCredablyTransaction,
+  sendAdminPaymentNotification,
 } from '../lib/api';
 import {
   adminManageInstalmentPlan,
@@ -936,12 +937,17 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                                 rel="noopener noreferrer"
                                 className="text-[#DC2626] font-semibold underline"
                               >
-                                Inspect Receipt ({ordReceipts.find((r) => r.id === pay.receiptId)?.fileName || 'File'})
+                                View Receipt ({ordReceipts.find((r) => r.id === pay.receiptId)?.fileName || 'File'})
                               </a>
                             ) : (
                               'No receipt attached'
                             )}
                           </p>
+                          {pay.receiptUrl && (ordReceipts.find((r) => r.id === pay.receiptId)?.mimeType || '').startsWith('image/') && (
+                            <a href={pay.receiptUrl} target="_blank" rel="noopener noreferrer" className="inline-block mt-2">
+                              <img src={pay.receiptUrl} alt="Customer payment receipt" className="max-h-40 max-w-[220px] rounded-lg border border-gray-200 object-contain bg-white" />
+                            </a>
+                          )}
                         </div>
 
                         {pay.status === 'pending_verification' && (
@@ -960,15 +966,33 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                             />
                             <button
                               type="button"
-                              onClick={() =>
-                                adminVerifyPayment({
-                                  payment: pay,
-                                  order: ord,
-                                  plan: ordPlan,
-                                  action: 'approved',
-                                  adminUid: user.uid,
-                                })
-                              }
+                              onClick={async () => {
+                                setBusyAction(true);
+                                try {
+                                  await adminVerifyPayment({
+                                    payment: pay,
+                                    order: ord,
+                                    plan: ordPlan,
+                                    action: 'approved',
+                                    adminUid: user.uid,
+                                  });
+                                  const emailResult = await sendAdminPaymentNotification({
+                                    orderRef: ord.orderRef,
+                                    customerName: ord.customerName,
+                                    customerEmail: ord.customerEmail,
+                                    amountNgn: pay.amountNgn,
+                                    method: pay.method,
+                                    referenceCode: pay.referenceCode,
+                                  });
+                                  notify(emailResult.sent
+                                    ? 'Payment approved. Admin email notification sent.'
+                                    : 'Payment approved. Email notification is not configured or could not be sent: ' + (emailResult.error || 'Unknown error'));
+                                } catch (error) {
+                                  notify(error instanceof Error ? error.message : 'Could not approve payment.');
+                                } finally {
+                                  setBusyAction(false);
+                                }
+                              }}
                               className="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-800 text-white font-semibold rounded-lg inline-flex items-center gap-1 cursor-pointer"
                             >
                               <CheckCircle2 className="w-3.5 h-3.5" />
