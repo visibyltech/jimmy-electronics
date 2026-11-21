@@ -77,7 +77,7 @@ export default async function handler(req: any, res: any) {
   }
 
   const { fileName, mimeType, base64Data, folder } = req.body || {};
-  const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
   if (!fileName || !mimeType || !base64Data || !allowedMimes.includes(String(mimeType).toLowerCase())) {
     return res.status(400).json({ configured: true, error: 'Choose a JPG, PNG or WebP image and try again.' });
   }
@@ -89,7 +89,12 @@ export default async function handler(req: any, res: any) {
   }
 
   const timestamp = Math.floor(Date.now() / 1000);
-  const targetFolder = folder === 'products' ? 'jimmy-electronics/products' : 'jimmy-electronics/receipts';
+  const isProductImage = folder === 'products';
+  const targetFolder = isProductImage ? 'jimmy-electronics/products' : 'jimmy-electronics/receipts';
+  if (isProductImage && mimeType === 'application/pdf') {
+    return res.status(400).json({ configured: true, error: 'Product images must be JPG, PNG or WebP.' });
+  }
+  const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
   const signature = crypto.createHash('sha1')
     .update(`folder=${targetFolder}&timestamp=${timestamp}${apiSecret}`)
     .digest('hex');
@@ -102,7 +107,7 @@ export default async function handler(req: any, res: any) {
   });
 
   try {
-    const upload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    const upload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: form.toString(),
