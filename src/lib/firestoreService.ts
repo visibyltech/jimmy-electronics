@@ -742,3 +742,29 @@ export async function fetchAllBrands(): Promise<BrandItem[]> {
     return SEED_BRANDS;
   }
 }
+
+
+export async function createStoreCategory(name: string): Promise<CategoryItem> {
+  const cleanName = name.trim().slice(0, 80);
+  if (!cleanName) throw new Error('Enter a category name.');
+  const slug = slugify(cleanName);
+  const id = `custom-${slug}`;
+  const category: Omit<CategoryItem, 'id'> = {
+    name: cleanName,
+    slug,
+    description: '',
+    displayOrder: Date.now(),
+    isActive: true,
+    productCount: 0,
+  };
+  try {
+    await setDoc(doc(db, 'categories', id), {
+      ...category,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+    return { id, ...category };
+  } catch (err) {
+    handleFirestoreError(err, OperationType.WRITE, `categories/${id}`);
+  }
+}
