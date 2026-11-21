@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
-  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -185,10 +184,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
         if (fullName.trim()) {
           await updateProfile(cred.user, { displayName: fullName.trim() });
         }
-        await sendEmailVerification(cred.user);
-        setAuthNotice(
-          'Account created. A verification link has been sent to your email address—please verify it to unlock checkout and profile writes.'
-        );
+        setAuthNotice('Account created successfully. You can now sign in and use your account.');
       } else {
         await sendPasswordResetEmail(auth, email.trim());
         setAuthNotice('Password reset instructions have been sent to your email inbox.');
@@ -222,7 +218,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
 
   const handleAddAddress = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !user.emailVerified) return;
+    if (!user) return;
     setAddrBusy(true);
     try {
       await saveDeliveryAddress(user.uid, {
