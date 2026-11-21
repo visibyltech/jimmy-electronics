@@ -100,21 +100,19 @@ export default function App() {
       }
 
       const adminCheck =
-        (firebaseUser.emailVerified && isBootstrappedAdminEmail(firebaseUser.email)) ||
-        (firebaseUser.emailVerified && (await checkIsUserAdmin(firebaseUser.uid)));
+        isBootstrappedAdminEmail(firebaseUser.email) ||
+        (await checkIsUserAdmin(firebaseUser.uid));
       setIsAdmin(Boolean(adminCheck));
 
-      if (firebaseUser.emailVerified) {
-        try {
-          const prof = await ensureUserProfile({
-            uid: firebaseUser.uid,
-            fullName: firebaseUser.displayName || 'Valued Customer',
-            email: firebaseUser.email || '',
-          });
-          setProfile(prof);
-        } catch {
-          // Handled safely
-        }
+      try {
+        const prof = await ensureUserProfile({
+          uid: firebaseUser.uid,
+          fullName: firebaseUser.displayName || 'Valued Customer',
+          email: firebaseUser.email || '',
+        });
+        setProfile(prof);
+      } catch {
+        // Handled safely
       }
     });
     return () => unsubAuth();
