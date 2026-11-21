@@ -777,7 +777,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                 className="w-full py-3 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-sm font-semibold rounded-lg inline-flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                <span>{editingId ? 'Save Product Changes' : 'Publish Product'}</span>
+                <span>{busyAction ? (pendingProductImages.length ? 'Uploading images & publishing…' : 'Publishing…') : (editingId ? 'Save Product Changes' : 'Publish Product')}</span>
               </button>
             </form>
 
