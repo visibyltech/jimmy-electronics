@@ -92,8 +92,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [pDesc, setPDesc] = useState('');
   const [pImages, setPImages] = useState<string[]>([]);
   const [pImageUrlInput, setPImageUrlInput] = useState('');
-  const [uploadingImagePreview, setUploadingImagePreview] = useState<string | null>(null);
-  const [imageUploadError, setImageUploadError] = useState('');
+  const [pendingProductImages, setPendingProductImages] = useState<Array<{ file: File; preview: string }>>([]);
   const [pFeatured, setPFeatured] = useState(false);
   const [pPromo, setPPromo] = useState(false);
 
@@ -176,6 +175,8 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setPShortDesc('');
     setPDesc('');
     setPImages([]);
+    pendingProductImages.forEach((item) => URL.revokeObjectURL(item.preview));
+    setPendingProductImages([]);
     setPImageUrlInput('');
     setPFeatured(false);
     setPPromo(false);
@@ -194,55 +195,48 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setPShortDesc(p.shortDescription);
     setPDesc(p.description);
     setPImages(p.images || []);
+    pendingProductImages.forEach((item) => URL.revokeObjectURL(item.preview));
+    setPendingProductImages([]);
     setPFeatured(p.featured);
     setPPromo(p.onPromotion);
     setTab('products');
   };
 
-  const handleUploadProductImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadProductImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.currentTarget;
-    const file = input.files?.[0];
+    const files = Array.from(input.files || []);
     input.value = '';
-    if (!file || pImages.length >= 5) return;
-    if (!file.type.startsWith('image/')) {
-      notify('Please choose an image file.');
-      return;
-    }
-    const localPreview = URL.createObjectURL(file);
-    setUploadingImagePreview(localPreview);
-    setImageUploadError('');
-    setBusyAction(true);
-    try {
-      const base64Data = await fileToBase64(file);
-      const res = await uploadFileToCloudinary({
-        fileName: file.name,
-        mimeType: file.type,
-        base64Data,
-        folder: 'products',
-      });
-      if (!res.configured || !res.url) {
-        throw new Error(res.error || 'Image upload could not be completed. Please try again.');
-      }
-      setPImages((prev) => [...prev, res.url!].slice(0, 5));
-      URL.revokeObjectURL(localPreview);
-      setUploadingImagePreview(null);
-      notify('Product image uploaded successfully.');
-    } catch (error) {
-      setImageUploadError(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
-      notify(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
-    } finally {
-      setBusyAction(false);
-    }
+    const available = Math.max(0, 5 - pImages.length - pendingProductImages.length);
+    const selected = files.slice(0, available);
+    if (files.length > available) notify('You can add up to 5 product images.');
+    const valid = selected.filter((file) => ['image/jpeg', 'image/png', 'image/webp'].includes(file.type));
+    if (valid.length !== selected.length) notify('Choose JPG, PNG or WEBP images only.');
+    const additions = valid.map((file) => ({ file, preview: URL.createObjectURL(file) }));
+    if (additions.length) setPendingProductImages((prev) => [...prev, ...additions].slice(0, 5));
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusyAction(true);
     try {
-      const finalImages =
-        pImages.length > 0
-          ? pImages.slice(0, 8)
-          : ['/assets/aistudio/file_00000000b84481f4b44d267e06ddd435_d937ff89.png'];
+      const uploadedPendingImages: string[] = [];
+      for (const item of pendingProductImages) {
+        const base64Data = await fileToBase64(item.file);
+        const res = await uploadFileToCloudinary({
+          fileName: item.file.name,
+          mimeType: item.file.type,
+          base64Data,
+          folder: 'products',
+        });
+        if (!res.configured || !res.url) {
+          throw new Error(res.error || 'A product image could not be saved. Please try again.');
+        }
+        uploadedPendingImages.push(res.url);
+      }
+      const finalImages = [...pImages, ...uploadedPendingImages].slice(0, 5);
+      if (!finalImages.length) {
+        finalImages.push('/assets/aistudio/file_00000000b84481f4b44d267e06ddd435_d937ff89.png');
+      }
       await upsertProduct({
         ...(editingId ? { id: editingId } : {}),
         name: pName,
@@ -606,7 +600,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     <input
                       type="file"
                       accept="image/jpeg,image/png,image/webp"
-                      disabled={pImages.length >= 5}
+                      disabled={pImages.length + pendingProductImages.length >= 5}
                       onChange={handleUploadProductImage}
                       className="sr-only"
                     />
@@ -621,7 +615,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     />
                     <button
                       type="button"
-                      disabled={!pImageUrlInput.trim() || pImages.length >= 5}
+                      disabled={!pImageUrlInput.trim() || pImages.length + pendingProductImages.length >= 5}
                       onClick={() => {
                         setPImages((prev) => [...prev, pImageUrlInput.trim()].slice(0, 5));
                         setPImageUrlInput('');
@@ -632,7 +626,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     </button>
                   </div>
                 </div>
-                {(pImages.length > 0 || uploadingImagePreview) && (
+                {(pImages.length > 0 || pendingProductImages.length > 0) && (
                   <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 pt-1">
                     {pImages.map((img, i) => (
                       <div key={i} className="relative border border-gray-200 rounded-xl p-1.5 bg-white">
@@ -647,12 +641,22 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                         </button>
                       </div>
                     ))}
-                    {uploadingImagePreview && (
-                      <div className="relative border border-blue-200 rounded-xl p-1.5 bg-blue-50">
-                        <img src={uploadingImagePreview} alt="Selected product image preview" className="w-full h-20 object-contain" />
-                        <span className="block text-[10px] text-center text-blue-700 font-semibold py-1">Uploading…</span>
+                    {pendingProductImages.map((item, i) => (
+                      <div key={item.preview} className="relative border border-gray-200 rounded-xl p-1.5 bg-white">
+                        <img src={item.preview} alt={`Selected product image ${i + 1}`} className="w-full h-20 object-contain" />
+                        <button
+                          type="button"
+                          aria-label={`Remove selected image ${i + 1}`}
+                          onClick={() => {
+                            URL.revokeObjectURL(item.preview);
+                            setPendingProductImages((prev) => prev.filter((_, idx) => idx !== i));
+                          }}
+                          className="absolute -top-1.5 -right-1.5 bg-[#DC2626] text-white rounded-full w-6 h-6 text-xs font-bold cursor-pointer"
+                        >
+                          ×
+                        </button>
                       </div>
-                    )}
+                    ))}
                   </div>
                 )}
               </div>
