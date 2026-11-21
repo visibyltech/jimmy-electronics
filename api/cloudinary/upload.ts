@@ -1,18 +1,51 @@
 import crypto from 'node:crypto';
-import { getApps, initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
 
 export const config = {
-  api: {
-    bodyParser: { sizeLimit: '16mb' },
-  },
+  api: { bodyParser: { sizeLimit: '16mb' } },
 };
 
-const firebaseApp = getApps()[0] || initializeApp({
-  projectId: process.env.FIREBASE_PROJECT_ID || 'jimmy-electronics',
-});
+const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'jimmy-electronics';
+const CERTS_URL = 'https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com';
+let certCache: { expiresAt: number; certs: Record<string, string> } | null = null;
+
+async function getFirebaseCerts() {
+  if (certCache && certCache.expiresAt > Date.now()) return certCache.certs;
+  const response = await fetch(CERTS_URL);
+  if (!response.ok) throw new Error('Could not retrieve Firebase token verification certificates.');
+  const certs = await response.json() as Record<string, string>;
+  const cacheControl = response.headers.get('cache-control') || '';
+  const maxAge = Number(cacheControl.match(/max-age=(\d+)/)?.[1] || 300);
+  certCache = { certs, expiresAt: Date.now() + maxAge * 1000 };
+  return certs;
+}
+
+async function verifyFirebaseToken(token: string) {
+  const parts = token.split('.');
+  if (parts.length !== 3) throw new Error('Malformed Firebase token.');
+  const header = JSON.parse(Buffer.from(parts[0], 'base64url').toString('utf8'));
+  const payload = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8'));
+  if (header.alg !== 'RS256' || !header.kid) throw new Error('Unsupported token signature.');
+  const certs = await getFirebaseCerts();
+  const cert = certs[header.kid];
+  if (!cert) throw new Error('Unknown Firebase signing key.');
+  const valid = crypto.verify(
+    'RSA-SHA256',
+    Buffer.from(parts[0] + '.' + parts[1]),
+    cert,
+    Buffer.from(parts[2], 'base64url'),
+  );
+  const now = Math.floor(Date.now() / 1000);
+  if (!valid || payload.aud !== FIREBASE_PROJECT_ID ||
+      payload.iss !== 'https://securetoken.google.com/' + FIREBASE_PROJECT_ID ||
+      !payload.sub || payload.sub.length > 128 || !payload.exp || payload.exp <= now ||
+      !payload.iat || payload.iat > now || !payload.auth_time || payload.auth_time > now) {
+    throw new Error('Invalid or expired Firebase session.');
+  }
+  return payload as { email?: string; sub: string };
+}
 
 export default async function handler(req: any, res: any) {
+  res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed.' });
@@ -20,72 +53,72 @@ export default async function handler(req: any, res: any) {
 
   const authHeader = String(req.headers.authorization || '');
   if (!authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'Please sign in again before uploading.' });
+    return res.status(401).json({ configured: false, error: 'Please sign in again before uploading.' });
   }
 
   try {
-    await getAuth(firebaseApp).verifyIdToken(authHeader.slice(7));
+    const user = await verifyFirebaseToken(authHeader.slice(7));
+    if (user.email !== 'mindjemulticoncept@gmail.com' && user.email !== 'usitakatelvin@gmail.com') {
+      return res.status(403).json({ configured: false, error: 'Only an authorised store administrator can upload product images.' });
+    }
   } catch {
-    return res.status(401).json({ error: 'Your session has expired. Please sign in again.' });
+    return res.status(401).json({ configured: false, error: 'Your sign-in session could not be verified. Sign in again and retry.' });
   }
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;
   const apiSecret = process.env.CLOUDINARY_API_SECRET;
   if (!cloudName || !apiKey || !apiSecret) {
-    return res.status(503).json({ error: 'Image uploads are temporarily unavailable. Please contact the store administrator.' });
+    return res.status(503).json({
+      configured: false,
+      error: 'Cloudinary is not fully connected to the live website. The Cloudinary API secret must be added to the Vercel project.',
+      missingEnv: ['CLOUDINARY_CLOUD_NAME', 'CLOUDINARY_API_KEY', 'CLOUDINARY_API_SECRET'].filter((key) => !process.env[key]),
+    });
   }
 
   const { fileName, mimeType, base64Data, folder } = req.body || {};
   const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   if (!fileName || !mimeType || !base64Data || !allowedMimes.includes(String(mimeType).toLowerCase())) {
-    return res.status(400).json({ error: 'Choose a JPG, PNG or WEBP image.' });
+    return res.status(400).json({ configured: true, error: 'Choose a JPG, PNG or WebP image and try again.' });
   }
 
-  const cleanBase64 = String(base64Data).includes(',')
-    ? String(base64Data).split(',')[1]
-    : String(base64Data);
-  const bufferSize = Buffer.byteLength(cleanBase64, 'base64');
-  if (!bufferSize || bufferSize > 10 * 1024 * 1024) {
-    return res.status(400).json({ error: 'Image must be 10MB or smaller.' });
+  const cleanBase64 = String(base64Data).includes(',') ? String(base64Data).split(',')[1] : String(base64Data);
+  const bytes = Buffer.from(cleanBase64, 'base64');
+  if (!bytes.length || bytes.length > 10 * 1024 * 1024) {
+    return res.status(400).json({ configured: true, error: 'Each image must be smaller than 10MB.' });
   }
+
+  const timestamp = Math.floor(Date.now() / 1000);
+  const targetFolder = folder === 'products' ? 'jimmy-electronics/products' : 'jimmy-electronics/receipts';
+  const signature = crypto.createHash('sha1')
+    .update(`folder=${targetFolder}&timestamp=${timestamp}${apiSecret}`)
+    .digest('hex');
+  const form = new URLSearchParams({
+    file: `data:${mimeType};base64,${cleanBase64}`,
+    api_key: apiKey,
+    timestamp: String(timestamp),
+    folder: targetFolder,
+    signature,
+  });
 
   try {
-    const timestamp = Math.floor(Date.now() / 1000);
-    const targetFolder = folder === 'receipts' ? 'jimmy-electronics/receipts' : 'jimmy-electronics/products';
-    const signature = crypto
-      .createHash('sha1')
-      .update(`folder=${targetFolder}&timestamp=${timestamp}${apiSecret}`)
-      .digest('hex');
-
-    const form = new URLSearchParams({
-      file: `data:${mimeType};base64,${cleanBase64}`,
-      api_key: apiKey,
-      timestamp: String(timestamp),
-      folder: targetFolder,
-      signature,
-    });
-
     const upload = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: form.toString(),
     });
-    const payload = await upload.json() as Record<string, any>;
-    if (!upload.ok) {
-      return res.status(502).json({
-        error: payload?.error?.message || 'The image service rejected this upload. Please try another image.',
-      });
+    const result = await upload.json() as Record<string, any>;
+    if (!upload.ok || !result.secure_url) {
+      return res.status(502).json({ configured: true, error: result.error?.message || 'Cloudinary could not save this image. Please retry.' });
     }
-
     return res.status(200).json({
       configured: true,
-      url: payload.secure_url,
-      publicId: payload.public_id,
-      bytes: payload.bytes,
-      format: payload.format,
+      url: result.secure_url,
+      publicId: result.public_id,
+      bytes: result.bytes,
+      format: result.format,
     });
   } catch {
-    return res.status(502).json({ error: 'The image could not be uploaded. Please check your connection and try again.' });
+    return res.status(502).json({ configured: true, error: 'Could not reach Cloudinary. Check your connection and retry.' });
   }
 }
