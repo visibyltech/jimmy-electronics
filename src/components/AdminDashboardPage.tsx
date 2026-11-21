@@ -93,6 +93,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [pImages, setPImages] = useState<string[]>([]);
   const [pImageUrlInput, setPImageUrlInput] = useState('');
   const [uploadingImagePreview, setUploadingImagePreview] = useState<string | null>(null);
+  const [imageUploadError, setImageUploadError] = useState('');
   const [pFeatured, setPFeatured] = useState(false);
   const [pPromo, setPPromo] = useState(false);
 
@@ -209,6 +210,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     }
     const localPreview = URL.createObjectURL(file);
     setUploadingImagePreview(localPreview);
+    setImageUploadError('');
     setBusyAction(true);
     try {
       const base64Data = await fileToBase64(file);
@@ -222,12 +224,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         throw new Error(res.error || 'Image upload could not be completed. Please try again.');
       }
       setPImages((prev) => [...prev, res.url!].slice(0, 5));
-      notify('Product image uploaded successfully.');
-    } catch (error) {
-      notify(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
-    } finally {
       URL.revokeObjectURL(localPreview);
       setUploadingImagePreview(null);
+      notify('Product image uploaded successfully.');
+    } catch (error) {
+      setImageUploadError(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
+      notify(error instanceof Error ? error.message : 'Image upload failed. Please try again.');
+    } finally {
       setBusyAction(false);
     }
   };
@@ -602,7 +605,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     <span>Upload Images</span>
                     <input
                       type="file"
-                      accept=".jpg,.jpeg,.png"
+                      accept="image/jpeg,image/png,image/webp"
                       disabled={pImages.length >= 5}
                       onChange={handleUploadProductImage}
                       className="sr-only"
