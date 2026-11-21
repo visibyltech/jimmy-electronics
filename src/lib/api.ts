@@ -178,3 +178,23 @@ export function fileToBase64(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+
+
+export async function sendAdminPaymentNotification(params: {
+  orderRef: string;
+  customerName: string;
+  customerEmail: string;
+  amountNgn: number;
+  method: string;
+  referenceCode?: string;
+}): Promise<{ sent: boolean; error?: string }> {
+  const headers = await getAuthHeaders();
+  const response = await fetch('/api/admin/payment-notification', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(params),
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) return { sent: false, error: result.error || 'Email notification could not be sent.' };
+  return result;
+}
