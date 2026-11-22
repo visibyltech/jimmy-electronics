@@ -37,7 +37,10 @@ import {
   subscribeAllReceipts,
   upsertProduct,
   fetchAllCategories,
+  fetchAllBrands,
   createStoreCategory,
+  createStoreSubCategory,
+  createStoreBrand,
 } from '../lib/firestoreService';
 import { ResilientImage } from './ResilientImage';
 import type {
@@ -66,9 +69,13 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   onSettingsUpdated,
   initialTab,
 }) => {
-  const [productView, setProductView] = useState<'catalog' | 'form' | 'category'>('catalog');
+  const [productView, setProductView] = useState<'catalog' | 'form' | 'category' | 'brand'>('catalog');
   const [storeCategories, setStoreCategories] = useState(SEED_CATEGORIES);
+  const [storeBrands, setStoreBrands] = useState(SEED_BRANDS);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [newSubCategoryName, setNewSubCategoryName] = useState('');
+  const [newBrandName, setNewBrandName] = useState('');
+  const [selectedParentCategoryId, setSelectedParentCategoryId] = useState(SEED_CATEGORIES[0]?.id || '');
   const [tab, setTab] = useState<
     'analytics' | 'products' | 'orders' | 'save_to_buy' | 'credably' | 'shipping'
   >(initialTab || 'analytics');
@@ -83,6 +90,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
 
   useEffect(() => {
     fetchAllCategories().then(setStoreCategories);
+    fetchAllBrands().then(setStoreBrands);
   }, []);
   const [busyAction, setBusyAction] = useState(false);
 
@@ -92,6 +100,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
   const [pSku, setPSku] = useState('');
   const [pBrand, setPBrand] = useState('LG');
   const [pCategory, setPCategory] = useState<string>(SEED_CATEGORIES[0].name);
+  const [pSubCategory, setPSubCategory] = useState('');
   const [pPrice, setPPrice] = useState('');
   const [pOriginalPrice, setPOriginalPrice] = useState('');
   const [pStock, setPStock] = useState('10');
@@ -182,6 +191,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setPSku('');
     setPBrand('LG');
     setPCategory(SEED_CATEGORIES[0].name);
+    setPSubCategory('');
     setPPrice('');
     setPOriginalPrice('');
     setPStock('10');
@@ -202,6 +212,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
     setPSku(p.sku);
     setPBrand(p.brand);
     setPCategory(p.category);
+    setPSubCategory(p.subCategories?.[0] || '');
     setPPrice(String(p.priceNgn));
     setPOriginalPrice(p.originalPriceNgn ? String(p.originalPriceNgn) : '');
     setPStock(String(p.stockQty));
@@ -263,6 +274,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
         sku: pSku,
         brand: pBrand,
         category: pCategory,
+        subCategories: pSubCategory ? [pSubCategory] : [],
         priceNgn: Number(pPrice),
         ...(pOriginalPrice ? { originalPriceNgn: Number(pOriginalPrice) } : {}),
         stockQty: Number(pStock),
@@ -484,6 +496,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                   <button type="button" onClick={() => { setNewCategoryName(''); setProductView('category'); }} className="px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm font-semibold inline-flex items-center gap-2">
                     <Plus className="w-4 h-4" /> Create Category
                   </button>
+                  <button type="button" onClick={() => { setNewBrandName(''); setProductView('brand'); }} className="px-4 py-3 rounded-xl border border-gray-300 bg-white text-sm font-semibold inline-flex items-center gap-2"><Plus className="w-4 h-4" /> Manage Brands</button>
                   <button type="button" onClick={() => { resetProductForm(); setProductView('form'); }} className="px-4 py-3 rounded-xl bg-[#DC2626] text-white text-sm font-semibold inline-flex items-center gap-2">
                     <Plus className="w-4 h-4" /> Upload Product
                   </button>
@@ -531,16 +544,15 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
           )}
 
           {productView === 'category' && (
-            <div className="max-w-xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 space-y-5">
-              <div className="flex items-center justify-between">
-                <div><h2 className="text-xl font-bold">Create Category</h2><p className="text-sm text-gray-500 mt-1">Add a category to your store catalogue.</p></div>
-                <button type="button" onClick={() => setProductView('catalog')} className="text-sm text-gray-500">Cancel</button>
-              </div>
-              <label className="block text-sm font-medium">Category Name
-                <input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} maxLength={80} placeholder="e.g. Laptops" className="mt-2 w-full h-12 px-3 border border-gray-300 rounded-xl" />
-              </label>
-              <button type="button" disabled={busyAction || !newCategoryName.trim()} onClick={async () => { setBusyAction(true); try { const created = await createStoreCategory(newCategoryName); setStoreCategories((prev) => [...prev.filter((c) => c.id !== created.id), created].sort((a,b) => a.displayOrder-b.displayOrder)); setPCategory(created.name); setProductView('catalog'); setStatusBanner('Category created successfully.'); } catch (error) { setStatusBanner(error instanceof Error ? error.message : 'Could not create category.'); } finally { setBusyAction(false); } }} className="w-full py-3 bg-[#DC2626] text-white rounded-xl font-semibold disabled:opacity-50">Save Category</button>
+            <div className="max-w-2xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 space-y-6">
+              <div className="flex items-center justify-between"><div><h2 className="text-xl font-bold">Categories & Subcategories</h2><p className="text-sm text-gray-500 mt-1">Manage the structure of your store catalogue.</p></div><button type="button" onClick={() => setProductView('catalog')} className="text-sm text-gray-500">Cancel</button></div>
+              <section className="space-y-3"><h3 className="font-semibold">Create Main Category</h3><input value={newCategoryName} onChange={(e) => setNewCategoryName(e.target.value)} maxLength={80} placeholder="e.g. Home Appliances" className="w-full h-12 px-3 border border-gray-300 rounded-xl" /><button type="button" disabled={busyAction || !newCategoryName.trim()} onClick={async () => { setBusyAction(true); try { const created = await createStoreCategory(newCategoryName); setStoreCategories((prev) => [...prev.filter((item) => item.id !== created.id), created].sort((a,b) => a.displayOrder-b.displayOrder)); setPCategory(created.name); setNewCategoryName(''); setStatusBanner('Category created successfully.'); } catch (error) { setStatusBanner(error instanceof Error ? error.message : 'Could not create category.'); } finally { setBusyAction(false); } }} className="w-full py-3 bg-[#DC2626] text-white rounded-xl font-semibold disabled:opacity-50">Save Category</button></section>
+              <section className="border-t border-gray-100 pt-5 space-y-3"><h3 className="font-semibold">Add Subcategory</h3><select value={selectedParentCategoryId} onChange={(e) => setSelectedParentCategoryId(e.target.value)} className="w-full h-12 px-3 border border-gray-300 rounded-xl bg-white">{storeCategories.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select><input value={newSubCategoryName} onChange={(e) => setNewSubCategoryName(e.target.value)} maxLength={80} placeholder="e.g. Refrigerators" className="w-full h-12 px-3 border border-gray-300 rounded-xl" /><button type="button" disabled={busyAction || !newSubCategoryName.trim() || !selectedParentCategoryId} onClick={async () => { setBusyAction(true); try { const sub = await createStoreSubCategory(selectedParentCategoryId, newSubCategoryName); setStoreCategories((prev) => prev.map((item) => item.id === selectedParentCategoryId ? { ...item, subCategories: [...(item.subCategories || []), sub] } : item)); setNewSubCategoryName(''); setStatusBanner('Subcategory added successfully.'); } catch (error) { setStatusBanner(error instanceof Error ? error.message : 'Could not add subcategory.'); } finally { setBusyAction(false); } }} className="w-full py-3 bg-[#17191D] text-white rounded-xl font-semibold disabled:opacity-50">Save Subcategory</button></section>
+              <section className="border-t border-gray-100 pt-4 space-y-3"><h3 className="font-semibold">Existing Categories</h3>{storeCategories.map((item) => <div key={item.id} className="rounded-xl border border-gray-200 p-3"><p className="font-semibold text-sm">{item.name}</p><p className="text-xs text-gray-500 mt-1">{(item.subCategories || []).map((sub) => sub.name).join(' · ') || 'No subcategories yet'}</p></div>)}</section>
             </div>
+          )}
+          {productView === 'brand' && (
+            <div className="max-w-2xl bg-white border border-gray-200 rounded-2xl p-5 sm:p-7 space-y-5"><div className="flex items-center justify-between"><div><h2 className="text-xl font-bold">Manage Brands</h2><p className="text-sm text-gray-500 mt-1">Add brands for product uploads.</p></div><button type="button" onClick={() => setProductView('catalog')} className="text-sm text-gray-500">Cancel</button></div><input value={newBrandName} onChange={(e) => setNewBrandName(e.target.value)} maxLength={80} placeholder="e.g. Samsung, LG, Hisense" className="w-full h-12 px-3 border border-gray-300 rounded-xl" /><button type="button" disabled={busyAction || !newBrandName.trim()} onClick={async () => { setBusyAction(true); try { const brand = await createStoreBrand(newBrandName); setStoreBrands((prev) => [...prev.filter((item) => item.id !== brand.id), brand].sort((a,b) => a.name.localeCompare(b.name))); setPBrand(brand.name); setNewBrandName(''); setStatusBanner('Brand added successfully.'); } catch (error) { setStatusBanner(error instanceof Error ? error.message : 'Could not add brand.'); } finally { setBusyAction(false); } }} className="w-full py-3 bg-[#DC2626] text-white rounded-xl font-semibold disabled:opacity-50">Save Brand</button><div className="border-t border-gray-100 pt-4"><h3 className="font-semibold mb-3">Available Brands</h3><div className="flex flex-wrap gap-2">{storeBrands.map((brand) => <span key={brand.id} className="px-3 py-1.5 rounded-full bg-gray-100 text-xs text-gray-700">{brand.name}</span>)}</div></div></div>
           )}
 
           {productView === 'form' && (
@@ -598,7 +610,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     onChange={(e) => setPBrand(e.target.value)}
                     className="w-full h-10 px-3 text-sm bg-white border border-gray-300 rounded-lg"
                   >
-                    {SEED_BRANDS.map((b) => (
+                    {storeBrands.map((b) => (
                       <option key={b.id} value={b.name}>
                         {b.name}
                       </option>
@@ -619,6 +631,7 @@ export const AdminDashboardPage: React.FC<AdminDashboardPageProps> = ({
                     ))}
                   </select>
                 </div>
+                <div><label className="block text-xs font-semibold text-gray-700 mb-1">Subcategory</label><select value={pSubCategory} onChange={(e) => setPSubCategory(e.target.value)} className="w-full h-10 px-3 text-sm bg-white border border-gray-300 rounded-lg"><option value="">No subcategory</option>{(storeCategories.find((item) => item.name === pCategory)?.subCategories || []).map((sub) => <option key={sub.id} value={sub.name}>{sub.name}</option>)}</select></div>
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">Price (₦) *</label>
                   <input
