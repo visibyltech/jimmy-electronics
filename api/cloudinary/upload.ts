@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
 
 export const config = {
-  api: { bodyParser: { sizeLimit: '4mb' } },
+  api: { bodyParser: { sizeLimit: '4.5mb' } },
 };
 
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID || 'jimmy-electronics';
