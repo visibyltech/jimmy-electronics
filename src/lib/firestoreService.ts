@@ -1,4 +1,5 @@
 import {
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -34,6 +35,7 @@ import type {
   Product,
   ReceiptRecord,
   StoreSettings,
+  SubCategoryItem,
   UserProfile,
 } from '../types';
 
@@ -740,6 +742,38 @@ export async function fetchAllBrands(): Promise<BrandItem[]> {
     return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Omit<BrandItem, 'id'>) }));
   } catch {
     return SEED_BRANDS;
+  }
+}
+
+
+export async function createStoreSubCategory(categoryId: string, name: string): Promise<SubCategoryItem> {
+  const cleanName = name.trim().slice(0, 80);
+  if (!categoryId || !cleanName) throw new Error('Choose a category and enter a subcategory name.');
+  const categoryRef = doc(db, 'categories', categoryId);
+  const categorySnap = await getDoc(categoryRef);
+  if (!categorySnap.exists()) throw new Error('The selected category could not be found.');
+  const current = (categorySnap.data().subCategories || []) as SubCategoryItem[];
+  if (current.some((item) => item.name.toLowerCase() === cleanName.toLowerCase())) throw new Error('That subcategory already exists in this category.');
+  const item: SubCategoryItem = { id: Date.now(), name: cleanName, slug: slugify(cleanName), parentId: categorySnap.data().numericId || categoryId, sortOrder: current.length + 1 };
+  try {
+    await updateDoc(categoryRef, { subCategories: arrayUnion(item), updatedAt: serverTimestamp() });
+    return item;
+  } catch (err) {
+    handleFirestoreError(err, OperationType.UPDATE, `categories/${categoryId}`);
+  }
+}
+
+export async function createStoreBrand(name: string): Promise<BrandItem> {
+  const cleanName = name.trim().slice(0, 80);
+  if (!cleanName) throw new Error('Enter a brand name.');
+  const slug = slugify(cleanName);
+  const id = `custom-${slug}`;
+  const brand: Omit<BrandItem, 'id'> = { name: cleanName, slug, isActive: true, productCount: 0 };
+  try {
+    await setDoc(doc(db, 'brands', id), { ...brand, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+    return { id, ...brand };
+  } catch (err) {
+    handleFirestoreError(err, OperationType.WRITE, `brands/${id}`);
   }
 }
 
